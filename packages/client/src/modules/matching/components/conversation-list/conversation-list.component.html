@@ -1,4 +1,4 @@
-<app-card title="Mes conversations" icon="fas fa-comment" anchor="conversations">
+<app-card title="Mes conversations" icon="fas fa-comment" anchor="conversations" fullWidth="mobile">
     <div class="conversation-list">
         <ng-container *ngFor="let conversation of conversations">
             <ng-container *ngIf="conversation.value | async; let value">
