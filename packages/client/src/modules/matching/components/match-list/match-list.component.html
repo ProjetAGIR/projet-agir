@@ -1,4 +1,4 @@
-<app-card [noPadding]="true" title="Mes matchs" icon="fas fa-user-friends" anchor="matches" fullWidth="mobile">
+<app-card [noPadding]="true" title="Mes matchs" icon="fas fa-user-friends" anchor="matches">
     <div class="match-list">
         <ng-container *ngFor="let match of matches">
             <ng-container *ngIf="match.value | async; let value">

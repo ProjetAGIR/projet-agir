@@ -1,5 +1,5 @@
 <ng-template #formInvalid>
-    <app-card *ngIf="userProfileForm.invalid" color="danger" fullWidth="mobile">
+    <app-card *ngIf="userProfileForm.invalid" color="danger">
         Assurez-vous d'avoir rempli tous les champs obligatoires (incluant au moins une image).
     </app-card>
 </ng-template>
@@ -7,7 +7,7 @@
 <form [formGroup]="userProfileForm" (submit)="onSubmit()" class="form">
     <ng-container *ngTemplateOutlet="formInvalid"></ng-container>
 
-    <app-card title="Mes photos" icon="fas fa-camera-retro" fullWidth="mobile">
+    <app-card title="Mes photos" icon="fas fa-camera-retro">
         <div class="form__pictures">
             <app-image-control
                 *ngFor="let picture of pictures; let index = index"
@@ -21,7 +21,7 @@
         <mat-error *ngIf="userProfileForm.controls.pictures.getError('picturesNotValid')">Au moins une photo est requise</mat-error>
     </app-card>
 
-    <app-card title="Mon profil" icon="fas fa-user" fullWidth="mobile">
+    <app-card title="Mon profil" icon="fas fa-user">
         <mat-form-field>
             <mat-label><i class="fas fa-signature"></i> Nom</mat-label>
             <input formControlName="name" matInput>
@@ -48,7 +48,7 @@
         </mat-form-field>
     </app-card>
 
-    <app-card title="Ma vie amoureuse" icon="fas fa-heart" fullWidth="mobile">
+    <app-card title="Ma vie amoureuse" icon="fas fa-heart">
         <mat-form-field>
             <mat-label><i class="fas fa-heart"></i> Ouvert à</mat-label>
             <mat-select formControlName="lookingFor">
@@ -103,7 +103,7 @@
         <a href="/about/ressources/inclusivity" target="__BLANK"><i class="fas fa-info-circle"></i> En savoir plus sur les genres et la sexualité</a>
     </app-card>
 
-    <app-card title="Ma vie à Poly" icon="fas fa-school" fullWidth="mobile">
+    <app-card title="Ma vie à Poly" icon="fas fa-school">
         <mat-form-field>
             <mat-label><i class="fas fa-graduation-cap"></i> Programme d'étude</mat-label>
             <mat-select formControlName="program">
@@ -127,7 +127,7 @@
         </mat-form-field>
     </app-card>
 
-    <app-card title="Mon mode de vie" icon="fas fa-leaf" fullWidth="mobile">
+    <app-card title="Mon mode de vie" icon="fas fa-leaf">
         <mat-form-field>
             <mat-label><i class="fas fa-star-shooting"></i> Signe zodiac</mat-label>
             <mat-select formControlName="zodiacSign">
@@ -187,7 +187,7 @@
         </mat-form-field>
     </app-card>
 
-    <app-card title="Ma vie profesionnelle" icon="fas fa-briefcase" fullWidth="mobile">
+    <app-card title="Ma vie profesionnelle" icon="fas fa-briefcase">
         <mat-form-field>
             <mat-label><i class="fas fa-briefcase"></i> Emploi</mat-label>
             <input formControlName="jobTitle" matInput>
