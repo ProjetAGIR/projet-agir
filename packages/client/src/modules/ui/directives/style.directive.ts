@@ -59,6 +59,20 @@ export class StyleDirective implements OnInit {
             ...this.resolveComposedAttr('radius', attributes.radius, prefix),
         ];
 
+        classesList = [
+            ...classesList,
+            ...this.resolveComposedAttr('padding', attributes.padding, prefix),
+        ];
+
+        classesList = [
+            ...classesList,
+            ...this.resolveComposedAttr('margin', attributes.margin, prefix),
+        ];
+
+        if (attributes.gap) {
+            classesList.push(prefix + this.resolveAttr('gap', attributes.gap));
+        }
+
         return classesList;
     }
 

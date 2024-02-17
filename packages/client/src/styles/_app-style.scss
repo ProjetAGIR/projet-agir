@@ -1,11 +1,11 @@
 @import './variables';
 
-$border-sides: (
-    'all': 'border',
-    't': 'border-top',
-    'b': 'border-bottom',
-    'l': 'border-left',
-    'r': 'border-right',
+$sides: (
+    'all': '',
+    't': '-top',
+    'b': '-bottom',
+    'l': '-left',
+    'r': '-right',
 );
 
 $radius-corners: (
@@ -31,13 +31,22 @@ $radius: (
     'none': 0,
 );
 
+$spacing: (
+    'default': 24px,
+    's': 12px,
+    'l': 48px,
+    'xl': 96px,
+    'xxl': 192px,
+    'none': 0,
+);
+
 @mixin app-style {
     &--border { 
-        @each $border-side-label, $border-side in $border-sides {
-            &--#{$border-side-label} {
+        @each $side-label, $side in $sides {
+            &--#{$side-label} {
                 @each $label, $value in $border {
                     &--#{$label} {
-                        #{$border-side}: $value;
+                        border#{$side}: $value;
                     }
                 }
             }
@@ -106,6 +115,74 @@ $radius: (
                     border-top-right-radius: $size;
                     border-bottom-right-radius: $size;
                 }
+            }
+        }
+    }
+
+    &--padding {
+        @each $side-label, $side in $sides {
+            &--#{$side-label} {
+                @each $label, $value in $spacing {
+                    &--#{$label} {
+                        padding#{$side}: $value;
+                    }
+                }
+            }
+        }
+
+        &--h {
+            @each $label, $value in $spacing {
+                &--#{$label} {
+                    padding-left: $value;
+                    padding-right: $value;
+                }
+            }
+        }
+
+        &--v {
+            @each $label, $value in $spacing {
+                &--#{$label} {
+                    padding-top: $value;
+                    padding-bottom: $value;
+                }
+            }
+        }
+    }
+
+    &--margin {
+        @each $side-label, $side in $sides {
+            &--#{$side-label} {
+                @each $label, $value in $spacing {
+                    &--#{$label} {
+                        margin#{$side}: $value;
+                    }
+                }
+            }
+        }
+
+        &--h {
+            @each $label, $value in $spacing {
+                &--#{$label} {
+                    margin-left: $value;
+                    margin-right: $value;
+                }
+            }
+        }
+
+        &--v {
+            @each $label, $value in $spacing {
+                &--#{$label} {
+                    margin-top: $value;
+                    margin-bottom: $value;
+                }
+            }
+        }
+    }
+
+    &--gap {
+        @each $label, $value in $spacing {
+            &--#{$label} {
+                gap: $value;
             }
         }
     }

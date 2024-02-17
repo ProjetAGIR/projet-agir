@@ -1,5 +1,5 @@
 export type StyleColor = 'default' | 'danger';
-export type BorderRadius = 'default' | 's' | 'l' | 'xl' | 'xxl';
+export type StyleSize = 's' | 'default' | 'l' | 'xl' | 'xxl';
 
 export interface Sides<T> {
     all?: T;
@@ -25,7 +25,10 @@ export interface Corners<T> {
 
 export interface StyleAttributes {
     border?: boolean | StyleColor | Sides<boolean | StyleColor>;
-    radius?: boolean | BorderRadius | Corners<boolean | BorderRadius>;
+    radius?: boolean | StyleSize | Corners<boolean | StyleSize>;
+    padding?: boolean | StyleSize | Sides<boolean | StyleSize>;
+    margin?: boolean | StyleSize | Sides<boolean | StyleSize>;
+    gap?: boolean | StyleSize;
 }
 
 export interface Style extends StyleAttributes {
