@@ -1,0 +1,128 @@
+@import './variables';
+
+$border-sides: (
+    'all': 'border',
+    't': 'border-top',
+    'b': 'border-bottom',
+    'l': 'border-left',
+    'r': 'border-right',
+);
+
+$radius-corners: (
+    'all': 'border-radius',
+    'tl': 'border-top-left-radius',
+    'tr': 'border-top-right-radius',
+    'bl': 'border-bottom-left-radius',
+    'br': 'border-bottom-right-radius',
+);
+
+$border: (
+    'default': solid 1px rgb(240, 240, 240),
+    'danger': solid 1px tomato,
+    'none': none,
+);
+
+$radius: (
+    'default': 6px,
+    's': 3px,
+    'l': 12px,
+    'xl': 24px,
+    'xxl': 48px,
+    'none': 0,
+);
+
+@mixin app-style {
+    &--border { 
+        @each $border-side-label, $border-side in $border-sides {
+            &--#{$border-side-label} {
+                @each $label, $value in $border {
+                    &--#{$label} {
+                        #{$border-side}: $value;
+                    }
+                }
+            }
+        }
+        
+        &--h {
+            @each $label, $value in $border {
+                &--#{$label} {
+                    border-top: $value;
+                    border-bottom: $value;
+                }
+            }
+        }
+        
+        &--v {
+            @each $label, $value in $border {
+                &--#{$label} {
+                    border-left: $value;
+                    border-right: $value;
+                }
+            }
+        }
+    }
+
+    &--radius {
+        @each $radius-corner-label, $radius-corner in $radius-corners {
+            &--#{$radius-corner-label} {
+                @each $label, $size in $radius {
+                    &--#{$label} {
+                        #{$radius-corner}: $size;
+                    }
+                }
+            }
+        }
+
+        &--t {
+            @each $label, $size in $radius {
+                &--#{$label} {
+                    border-top-left-radius: $size;
+                    border-top-right-radius: $size;
+                }
+            }
+        }
+
+        &--b {
+            @each $label, $size in $radius {
+                &--#{$label} {
+                    border-bottom-left-radius: $size;
+                    border-bottom-right-radius: $size;
+                }
+            }
+        }
+
+        &--l {
+            @each $label, $size in $radius {
+                &--#{$label} {
+                    border-top-left-radius: $size;
+                    border-bottom-left-radius: $size;
+                }
+            }
+        }
+
+        &--r {
+            @each $label, $size in $radius {
+                &--#{$label} {
+                    border-top-right-radius: $size;
+                    border-bottom-right-radius: $size;
+                }
+            }
+        }
+    }
+}
+
+.app-style {
+    @include app-style();
+
+    &--m {
+        @media screen and (max-width: $mobile-breakpoint) {
+            @include app-style();
+        }
+    }
+
+    &--d {
+        @media screen and (min-width: $mobile-breakpoint) {
+            @include app-style();
+        }
+    }
+}
