@@ -9,10 +9,7 @@ import {
 } from '@angular/core';
 import { PublicUserResult, UserProfile } from 'common/models/user';
 import {
-    LOOKING_FOR,
-    RELATIONSHIP_TYPES,
     ZODIAC_SIGNS,
-    SEXUAL_ORIENTATIONS,
     PROGRAMS,
     WORKOUT_HABITS,
     DRINKING_HABITS,
@@ -156,25 +153,6 @@ export class UserProfileCardComponent {
     get zodiacSign() {
         return ZODIAC_SIGNS.find(
             (zodiac) => zodiac.id === this.userProfile?.zodiacSign,
-        );
-    }
-
-    get sexualOrientation() {
-        return SEXUAL_ORIENTATIONS.find(
-            (orientation) =>
-                orientation.id === this.userProfile?.sexualOrientation,
-        );
-    }
-
-    get relationshipType() {
-        return RELATIONSHIP_TYPES.find(
-            (status) => status.id === this.userProfile?.relationshipType,
-        );
-    }
-
-    get lookingFor() {
-        return LOOKING_FOR.find(
-            (lookingFor) => lookingFor.id === this.userProfile?.lookingFor,
         );
     }
 

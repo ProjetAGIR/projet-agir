@@ -54,61 +54,6 @@
         <p class="form--helper">Acceptez automatiquement les connexions lorsqu'un utilisateur souhaite se connecter avec vous sans avoir à demander en retour.</p>
     </app-card>
 
-    <app-card title="Ma vie amoureuse" icon="fas fa-heart">
-        <mat-form-field>
-            <mat-label><i class="fas fa-heart"></i> Ouvert à</mat-label>
-            <mat-select formControlName="lookingFor">
-                <mat-option value="">No spécifié</mat-option>
-                <mat-option *ngFor="let lookingFor of lookingFor" [value]="lookingFor.id">{{ lookingFor.name }}</mat-option>
-            </mat-select>
-            <mat-error *ngIf="userProfileForm.controls.lookingFor.getError('notContainedIn')">Valeur invalide</mat-error>
-        </mat-form-field>
-
-        <mat-form-field>
-            <mat-label><i class="fas fa-user-friends"></i> Type de relation</mat-label>
-            <mat-select formControlName="relationshipType">
-                <mat-option value="">No spécifié</mat-option>
-                <mat-option *ngFor="let relationshipType of relationshipTypes" [value]="relationshipType.id">{{ relationshipType.name }}</mat-option>
-            </mat-select>
-            <mat-error *ngIf="userProfileForm.controls.relationshipType.getError('notContainedIn')">Valeur invalide</mat-error>
-        </mat-form-field>
-
-        <mat-form-field>
-            <mat-label><i class="fas fa-transgender"></i> Catégorie de genre</mat-label>
-            <mat-select formControlName="genderCategory">
-                <mat-option *ngFor="let gender of genders" [value]="gender.id">{{ gender.name }}</mat-option>
-            </mat-select>
-            <mat-error *ngIf="userProfileForm.controls.genderCategory.getError('notContainedIn')">Valeur invalide</mat-error>
-        </mat-form-field>
-
-        <mat-form-field>
-            <mat-label><i class="fas fa-transgender"></i> Identitée de genre</mat-label>
-            <mat-select formControlName="gender">
-                <mat-option value="">No spécifié</mat-option>
-                <mat-option *ngFor="let gender of genderIdentities" [value]="gender">{{ gender }}</mat-option>
-            </mat-select>
-            <mat-error *ngIf="userProfileForm.controls.gender.getError('notContainedIn')">Valeur invalide</mat-error>
-        </mat-form-field>
-
-        <mat-form-field>
-            <mat-label><i class="fas fa-transgender"></i> À la recherche de</mat-label>
-            <mat-select formControlName="genderPreference">
-                <mat-option *ngFor="let gender of genderPreferences" [value]="gender.id">{{ gender.name }}</mat-option>
-            </mat-select>
-            <mat-error *ngIf="userProfileForm.controls.genderPreference.getError('notContainedIn')">Valeur invalide</mat-error>
-        </mat-form-field>
-
-        <mat-form-field>
-            <mat-label><i class="fas fa-flag"></i> Sexualité</mat-label>
-            <mat-select formControlName="sexualOrientation">
-                <mat-option *ngFor="let sexuality of sexualities" [value]="sexuality.id">{{ sexuality.name }}</mat-option>
-            </mat-select>
-            <mat-error *ngIf="userProfileForm.controls.sexualOrientation.getError('notContainedIn')">Valeur invalide</mat-error>
-        </mat-form-field>
-
-        <a href="/about/ressources/inclusivity" target="__BLANK"><i class="fas fa-info-circle"></i> En savoir plus sur les genres et la sexualité</a>
-    </app-card>
-
     <app-card title="Ma vie à Poly" icon="fas fa-school">
         <mat-form-field>
             <mat-label><i class="fas fa-graduation-cap"></i> Programme d'étude</mat-label>
