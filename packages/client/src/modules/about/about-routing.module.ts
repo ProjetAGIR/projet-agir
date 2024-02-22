@@ -2,12 +2,9 @@ import { Routes } from '@angular/router';
 import {
     ABOUT_ROUTE,
     ACCEPTABLE_USE_POLICY_ROUTE,
-    AID_ORGANIZATIONS_ROUTE,
-    CONSENT_ROUTE,
     HOW_TO_BLOCK_ROUTE,
     HOW_TO_REPORT_ROUTE,
     HOW_TO_UNMATCH_ROUTE,
-    INCLUSIVITY_ROUTE,
     POLICIES_ROUTE,
     PRIVACY_POLICY_ROUTE,
     RULES_ROUTE,
@@ -44,10 +41,6 @@ const routes: Routes = [
     { path: HOW_TO_REPORT_ROUTE, component: HowToReportPageComponent },
     { path: HOW_TO_BLOCK_ROUTE, component: HowToBlockPageComponent },
     { path: HOW_TO_UNMATCH_ROUTE, component: HowToUnmatchComponent },
-
-    { path: INCLUSIVITY_ROUTE, component: InclusivityPageComponent },
-    { path: AID_ORGANIZATIONS_ROUTE, component: AidOrganizationsPageComponent },
-    { path: CONSENT_ROUTE, component: ConsentPageComponent },
 
     { path: ABOUT_ROUTE + '**', redirectTo: ABOUT_ROUTE },
 ];
