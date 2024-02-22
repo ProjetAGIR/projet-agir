@@ -19,9 +19,6 @@ import { AcceptableUsePolicyComponent } from './pages/application-rules/acceptab
 import { HowToReportPageComponent } from './pages/security/how-to-report-page/how-to-report-page.component';
 import { HowToBlockPageComponent } from './pages/security/how-to-block-page/how-to-block-page.component';
 import { HowToUnmatchComponent } from './pages/security/how-to-unmatch/how-to-unmatch.component';
-import { InclusivityPageComponent } from './pages/ressources/inclusivity-page/inclusivity-page.component';
-import { AidOrganizationsPageComponent } from './pages/ressources/aid-organizations-page/aid-organizations-page.component';
-import { ConsentPageComponent } from './pages/ressources/consent-page/consent-page.component';
 
 const routes: Routes = [
     { path: ABOUT_ROUTE, component: AboutPageComponent },

@@ -9,4 +9,3 @@ export {
 } from './lifestyle';
 export { PROGRAMS, PROGRAMS_ARRAY, PROGRAMS_CATEGORY } from './programs';
 export { ZODIAC_SIGNS } from './zodiac';
- 

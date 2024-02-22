@@ -149,7 +149,7 @@
                 }
 
                 &.fa-thumbs-up {
-                    color: lime;
+                    color: #66bd80;
                 }
             }
 
@@ -248,7 +248,7 @@
             box-shadow: $default-shadow;
 
             &--like {
-                color: var(--theme-main);
+                color: #66bd80;
                 i {
                     padding-top: 5px;
                 }

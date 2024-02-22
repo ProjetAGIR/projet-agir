@@ -96,7 +96,7 @@
             ></app-image>
     
             <div class="user-profile__interests user-profile__section" *ngIf="interests">
-                <p class="user-profile__section-title user-profile__interests__title"><i class="fas fa-heart"></i> Mes intérêts</p>
+                <p class="user-profile__section-title user-profile__interests__title"><i class="fas fa-thumbs-up"></i> Mes intérêts</p>
                 <div class="user-profile__list">
                     <div class="user-profile__list__item" *ngFor="let interest of interests">
                         {{interest}}
@@ -163,7 +163,7 @@
             <i class="fas fa-times"></i>
         </button>
         <button class="user-profile__actions__button user-profile__actions__button--like" (click)="swipe(true)" *ngIf="!disableInteractions">
-            <i class="fas fa-heart"></i>
+            <i class="fas fa-thumbs-up"></i>
         </button>
     </div>
 </div>
