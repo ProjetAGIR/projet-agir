@@ -62,9 +62,6 @@
     
             <div class="user-profile__table" *ngIf="shouldDisplayTable">
                 <div class="user-profile__table__entry user-profile__table__entry--multiple">
-                    <div class="user-profile__table__entry__item" *ngIf="userProfile.height">
-                        <i class="fas fa-ruler"></i> {{height}}
-                    </div>
                     <div class="user-profile__table__entry__item" *ngIf="workout">
                         <i class="fas fa-running"></i> {{workout.name}}
                     </div>
@@ -86,9 +83,6 @@
                 </div>
                 <div class="user-profile__table__entry" *ngIf="userProfile.livingIn">
                     <i class="fas fa-city"></i> {{userProfile.livingIn}}
-                </div>
-                <div class="user-profile__table__entry" *ngIf="userProfile.gender">
-                    <i class="fas fa-transgender"></i> {{userProfile.gender}}
                 </div>
             </div>
             

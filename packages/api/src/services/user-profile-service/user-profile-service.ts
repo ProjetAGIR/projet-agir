@@ -10,13 +10,8 @@ import {
     ASSOCIATIONS,
     DRINKING_HABITS,
     DRUGS_HABITS,
-    GENDERS,
-    GENDER_PREFERENCES,
     INTERESTS,
-    LOOKING_FOR,
     PROGRAMS_ARRAY,
-    RELATIONSHIP_TYPES,
-    SEXUAL_ORIENTATIONS,
     SMOKING_HABITS,
     ZODIAC_SIGNS,
 } from '../../constants/user-profile';
@@ -89,9 +84,6 @@ export class UserProfileService {
             associations: converted.associations ?? null,
             program: converted.program ?? null,
             educationLevel: converted.educationLevel ?? null,
-            height: converted.height ?? null,
-            lookingFor: converted.lookingFor ?? null,
-            relationshipType: converted.relationshipType ?? null,
             languages: converted.languages ?? null,
             zodiacSign: converted.zodiacSign ?? null,
             drinking: converted.drinking ?? null,
@@ -101,10 +93,6 @@ export class UserProfileService {
             jobTitle: converted.jobTitle ?? null,
             jobCompany: converted.jobCompany ?? null,
             livingIn: converted.livingIn ?? null,
-            gender: converted.gender ?? null,
-            genderCategory: converted.genderCategory ?? null,
-            genderPreference: converted.genderPreference ?? null,
-            sexualOrientation: converted.sexualOrientation ?? null,
             updatedAt: new Date(),
             automaticallyConnect: converted.automaticallyConnect ?? null,
         };
@@ -178,9 +166,7 @@ export class UserProfileService {
             (userProfile.name ?? '').length > 2 &&
             (userProfile.age ?? 0) > 0 &&
             (userProfile.bio ?? '').length > 0 &&
-            (userProfile.pictures ?? []).length > 0 &&
-            (userProfile.genderCategory ?? '').length > 0 &&
-            (userProfile.genderPreference ?? '').length > 0
+            (userProfile.pictures ?? []).length > 0 
         );
     }
 
@@ -207,37 +193,6 @@ export class UserProfileService {
         ) {
             throw new HttpException(
                 'Invalid interest',
-                StatusCodes.BAD_REQUEST,
-            );
-        }
-
-        if (
-            userProfile.genderCategory &&
-            !GENDERS.find((g) => g.id === userProfile.genderCategory)
-        ) {
-            throw new HttpException('Invalid gender', StatusCodes.BAD_REQUEST);
-        }
-
-        if (
-            userProfile.genderPreference &&
-            !GENDER_PREFERENCES.find(
-                (g) => g.id === userProfile.genderPreference,
-            )
-        ) {
-            throw new HttpException(
-                'Invalid gender preference',
-                StatusCodes.BAD_REQUEST,
-            );
-        }
-
-        if (
-            userProfile.sexualOrientation &&
-            !SEXUAL_ORIENTATIONS.find(
-                (s) => s.id === userProfile.sexualOrientation,
-            )
-        ) {
-            throw new HttpException(
-                'Invalid sexual orientation',
                 StatusCodes.BAD_REQUEST,
             );
         }
@@ -271,34 +226,11 @@ export class UserProfileService {
                 StatusCodes.BAD_REQUEST,
             );
         }
-
-        if (
-            userProfile.lookingFor &&
-            !LOOKING_FOR.find((l) => l.id === userProfile.lookingFor)
-        ) {
-            throw new HttpException(
-                'Invalid looking for',
-                StatusCodes.BAD_REQUEST,
-            );
-        }
-
         if (
             userProfile.program &&
             !PROGRAMS_ARRAY.find((p) => p.id === userProfile.program)
         ) {
             throw new HttpException('Invalid program', StatusCodes.BAD_REQUEST);
-        }
-
-        if (
-            userProfile.relationshipType &&
-            !RELATIONSHIP_TYPES.find(
-                (r) => r.id === userProfile.relationshipType,
-            )
-        ) {
-            throw new HttpException(
-                'Invalid relationship type',
-                StatusCodes.BAD_REQUEST,
-            );
         }
 
         if (

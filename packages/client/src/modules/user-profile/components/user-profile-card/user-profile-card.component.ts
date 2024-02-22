@@ -180,31 +180,15 @@ export class UserProfileCardComponent {
         );
     }
 
-    get height() {
-        if (!this.userProfile?.height) {
-            return undefined;
-        }
-
-        const heightCm = this.userProfile.height;
-        const heightFeet = Math.floor(heightCm / 30.48);
-        const heightInches = Math.round((heightCm % 30.48) / 2.54);
-
-        return `${heightCm} cm / ${heightFeet}'${heightInches}"`;
-    }
-
     get shouldDisplayTable() {
         return (
             (this.userProfile?.interests ?? []).length > 0 ||
             (this.userProfile?.associations ?? []).length > 0 ||
             this.userProfile?.zodiacSign ||
-            this.userProfile?.sexualOrientation ||
-            this.userProfile?.relationshipType ||
-            this.userProfile?.lookingFor ||
             this.userProfile?.workout ||
             this.userProfile?.drinking ||
             this.userProfile?.smoking ||
-            this.userProfile?.drugs ||
-            this.userProfile?.height
+            this.userProfile?.drugs
         );
     }
 
