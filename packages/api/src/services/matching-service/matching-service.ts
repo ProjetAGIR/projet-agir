@@ -159,10 +159,12 @@ export class MatchingService {
 
         this.notificationService.notifyUser(
             activeUserId,
+            'matches',
             `Vous avez matché avec ${targetUser.name} !`,
         );
         this.notificationService.notifyUser(
             targetUserId,
+            'matches',
             `Vous avez matché avec ${activeUser.name} !`,
         );
 

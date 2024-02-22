@@ -69,6 +69,7 @@ export class MessagesService {
         this.notificationService.notifyUser(
             recipientId,
             `New message from ${sender.name}`,
+            'matches',
             content,
         );
 

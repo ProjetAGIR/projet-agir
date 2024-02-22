@@ -1,14 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { SwPush } from '@angular/service-worker';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
     providedIn: 'root',
 })
 export class NotificationService {
-    private readonly VAPID_PUBLIC_KEY =
-        'BC7J1hDqhmWAb-N88JCvA_vgasQ433M8sD4Fl6qWyfiinOgW3qh62vJfrs2wWLg6I26JdsXwoXX2u7YS13XQbJA';
-
     constructor(
         private readonly http: HttpClient,
         private readonly swPush: SwPush,
@@ -23,7 +21,7 @@ export class NotificationService {
 
         this.swPush
             .requestSubscription({
-                serverPublicKey: this.VAPID_PUBLIC_KEY,
+                serverPublicKey: environment.notifications.vapidPublicKey,
             })
             .then((sub) => {
                 this.http

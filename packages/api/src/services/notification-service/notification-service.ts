@@ -2,20 +2,11 @@ import { singleton } from 'tsyringe';
 import { DatabaseService } from '../database-service/database-service';
 import { Knex } from 'knex';
 import { NotificationSubscription } from 'common/models/notification-subscription';
-import {
-    sendNotification,
-    PushSubscription,
-    VapidKeys,
-    setVapidDetails,
-} from 'web-push';
+import { sendNotification, PushSubscription, setVapidDetails } from 'web-push';
+import { env } from '../../utils/environment';
 
 @singleton()
 export class NotificationService {
-    readonly vapidKey: VapidKeys = {
-        publicKey:
-            'BC7J1hDqhmWAb-N88JCvA_vgasQ433M8sD4Fl6qWyfiinOgW3qh62vJfrs2wWLg6I26JdsXwoXX2u7YS13XQbJA',
-        privateKey: 'A1Nj53Yi95sVuPCN_xpUjyCnf13xwKh03mf2tXj98VQ',
-    };
     payload = {
         notification: {
             title: 'Test Notification',
@@ -24,7 +15,7 @@ export class NotificationService {
                 onActionClick: {
                     default: {
                         operation: 'focusLastFocusedOrOpen',
-                        url: 'http:localhost:4200/',
+                        url: env.CLIENT_URL,
                     },
                 },
             },
@@ -57,12 +48,14 @@ export class NotificationService {
     async notifyUser(
         userId: number,
         title: string,
+        endpoint?: string,
         text?: string,
     ): Promise<void> {
+        endpoint ||= '';
         setVapidDetails(
-            'mailto:miguel.vpereira14@gmail.com',
-            this.vapidKey.publicKey,
-            this.vapidKey.privateKey,
+            `mailto:projet.agir.2024@gmail.com`,
+            env.VAPID_PUBLIC_KEY,
+            env.VAPID_PRIVATE_KEY,
         );
         const sub: NotificationSubscription = await this.subscriptions
             .where({
@@ -79,6 +72,8 @@ export class NotificationService {
             };
             this.payload.notification.title = title;
             this.payload.notification.body = text || '';
+            this.payload.notification.data.onActionClick.default.url =
+                env.CLIENT_URL + endpoint;
             try {
                 await sendNotification(
                     subscription,
