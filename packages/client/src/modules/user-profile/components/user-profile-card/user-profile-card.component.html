@@ -51,11 +51,6 @@
                 <p>{{userProfile.bio}}</p>
             </div>
 
-            <div class="user-profile__looking-for user-profile__section" *ngIf="lookingFor">
-                <p class="user-profile__section-title user-profile__bio__title"><i class="fas fa-flower-tulip"></i> À la recherche de</p>
-                <p class="user-profile__looking-for__content"><span>{{lookingFor.emoji}}</span> {{lookingFor.name}}</p>
-            </div>
-            
             <app-image
                 [publicID]="userProfile.pictures?.[1]"
                 *ngIf="userProfile.pictures?.[1]"
@@ -67,9 +62,6 @@
     
             <div class="user-profile__table" *ngIf="shouldDisplayTable">
                 <div class="user-profile__table__entry user-profile__table__entry--multiple">
-                    <div class="user-profile__table__entry__item" *ngIf="userProfile.height">
-                        <i class="fas fa-ruler"></i> {{height}}
-                    </div>
                     <div class="user-profile__table__entry__item" *ngIf="workout">
                         <i class="fas fa-running"></i> {{workout.name}}
                     </div>
@@ -91,15 +83,6 @@
                 </div>
                 <div class="user-profile__table__entry" *ngIf="userProfile.livingIn">
                     <i class="fas fa-city"></i> {{userProfile.livingIn}}
-                </div>
-                <div class="user-profile__table__entry" *ngIf="sexualOrientation">
-                    <i class="fas fa-flag"></i> {{sexualOrientation.name}}
-                </div>
-                <div class="user-profile__table__entry" *ngIf="relationshipType">
-                    <i class="fas fa-user-friends"></i> {{relationshipType.name}}
-                </div>
-                <div class="user-profile__table__entry" *ngIf="userProfile.gender">
-                    <i class="fas fa-transgender"></i> {{userProfile.gender}}
                 </div>
             </div>
             

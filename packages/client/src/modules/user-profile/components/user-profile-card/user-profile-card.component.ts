@@ -9,10 +9,7 @@ import {
 } from '@angular/core';
 import { PublicUserResult, UserProfile } from 'common/models/user';
 import {
-    LOOKING_FOR,
-    RELATIONSHIP_TYPES,
     ZODIAC_SIGNS,
-    SEXUAL_ORIENTATIONS,
     PROGRAMS,
     WORKOUT_HABITS,
     DRINKING_HABITS,
@@ -159,25 +156,6 @@ export class UserProfileCardComponent {
         );
     }
 
-    get sexualOrientation() {
-        return SEXUAL_ORIENTATIONS.find(
-            (orientation) =>
-                orientation.id === this.userProfile?.sexualOrientation,
-        );
-    }
-
-    get relationshipType() {
-        return RELATIONSHIP_TYPES.find(
-            (status) => status.id === this.userProfile?.relationshipType,
-        );
-    }
-
-    get lookingFor() {
-        return LOOKING_FOR.find(
-            (lookingFor) => lookingFor.id === this.userProfile?.lookingFor,
-        );
-    }
-
     get workout() {
         return WORKOUT_HABITS.find(
             (workout) => workout.id === this.userProfile?.workout,
@@ -202,31 +180,15 @@ export class UserProfileCardComponent {
         );
     }
 
-    get height() {
-        if (!this.userProfile?.height) {
-            return undefined;
-        }
-
-        const heightCm = this.userProfile.height;
-        const heightFeet = Math.floor(heightCm / 30.48);
-        const heightInches = Math.round((heightCm % 30.48) / 2.54);
-
-        return `${heightCm} cm / ${heightFeet}'${heightInches}"`;
-    }
-
     get shouldDisplayTable() {
         return (
             (this.userProfile?.interests ?? []).length > 0 ||
             (this.userProfile?.associations ?? []).length > 0 ||
             this.userProfile?.zodiacSign ||
-            this.userProfile?.sexualOrientation ||
-            this.userProfile?.relationshipType ||
-            this.userProfile?.lookingFor ||
             this.userProfile?.workout ||
             this.userProfile?.drinking ||
             this.userProfile?.smoking ||
-            this.userProfile?.drugs ||
-            this.userProfile?.height
+            this.userProfile?.drugs
         );
     }
 

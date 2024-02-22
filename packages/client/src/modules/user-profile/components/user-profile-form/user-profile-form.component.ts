@@ -2,17 +2,11 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import {
     PROGRAMS_ARRAY,
-    LOOKING_FOR,
-    RELATIONSHIP_TYPES,
     ZODIAC_SIGNS,
     DRINKING_HABITS,
     DRUGS_HABITS,
     SMOKING_HABITS,
     WORKOUT_HABITS,
-    GENDERS,
-    GENDER_IDENTITIES,
-    GENDER_PREFERENCES,
-    SEXUAL_ORIENTATIONS,
     INTERESTS,
     ASSOCIATIONS,
 } from '../../constants';
@@ -66,18 +60,6 @@ export class UserProfileFormComponent {
             [],
             // [arrayContainedInValidator(ASSOCIATIONS)],
         ),
-        lookingFor: new FormControl('', [
-            containedInValidator(
-                LOOKING_FOR,
-                (item, value) => item.id === value,
-            ),
-        ]),
-        relationshipType: new FormControl('', [
-            containedInValidator(
-                RELATIONSHIP_TYPES,
-                (item, value) => item.id === value,
-            ),
-        ]),
         zodiacSign: new FormControl('', [
             containedInValidator(
                 ZODIAC_SIGNS,
@@ -111,38 +93,14 @@ export class UserProfileFormComponent {
         jobTitle: new FormControl(''),
         jobCompany: new FormControl(''),
         livingIn: new FormControl(''),
-        gender: new FormControl(''),
-        genderCategory: new FormControl('', [
-            Validators.required,
-            containedInValidator(GENDERS, (item, value) => item.id === value),
-        ]),
-        genderPreference: new FormControl('', [
-            Validators.required,
-            containedInValidator(
-                GENDER_PREFERENCES,
-                (item, value) => item.id === value,
-            ),
-        ]),
-        sexualOrientation: new FormControl('', [
-            containedInValidator(
-                SEXUAL_ORIENTATIONS,
-                (item, value) => item.id === value,
-            ),
-        ]),
         automaticallyConnect: new FormControl(false),
     });
     programs = PROGRAMS_ARRAY;
-    lookingFor = LOOKING_FOR;
-    relationshipTypes = RELATIONSHIP_TYPES;
     zodiacSigns = ZODIAC_SIGNS;
     drinkingHabits = DRINKING_HABITS;
     smokingHabits = SMOKING_HABITS;
     drugHabits = DRUGS_HABITS;
     workoutHabits = WORKOUT_HABITS;
-    genders = GENDERS;
-    genderIdentities = GENDER_IDENTITIES;
-    genderPreferences = GENDER_PREFERENCES;
-    sexualities = SEXUAL_ORIENTATIONS;
     interests = INTERESTS;
     associations = ASSOCIATIONS;
 

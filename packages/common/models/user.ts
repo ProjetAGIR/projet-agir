@@ -8,8 +8,6 @@ export interface User {
     updatedAt: Date;
 }
 
-export type GenderCategory = 'man' | 'woman' | 'other';
-export type GenderPreference = 'man' | 'woman' | 'all';
 
 export interface UserProfile {
     userId: number;
@@ -21,9 +19,6 @@ export interface UserProfile {
     associations?: string[];
     program?: string;
     educationLevel?: string;
-    height?: number;
-    lookingFor?: string;
-    relationshipType?: string;
     languages?: string[];
     zodiacSign?: string;
     drinking?: string;
@@ -33,10 +28,6 @@ export interface UserProfile {
     jobTitle?: string;
     jobCompany?: string;
     livingIn?: string;
-    gender?: string;
-    genderCategory?: 'men' | 'women' | 'other';
-    genderPreference?: 'men' | 'women' | 'all';
-    sexualOrientation?: string;
     createdAt?: Date;
     updatedAt?: Date;
     automaticallyConnect?: boolean;
