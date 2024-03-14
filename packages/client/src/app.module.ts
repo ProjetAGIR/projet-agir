@@ -19,6 +19,8 @@ import { StatusPageComponent } from './components/status-page/status-page.compon
 import { UserModule } from './modules/user/user.module';
 import { UiModule } from './modules/ui/ui.module';
 import { ServiceWorkerModule } from '@angular/service-worker';
+import { EventsModule } from './modules/events/events.module';
+import { MAT_DATE_LOCALE } from '@angular/material/core';
 
 @NgModule({
     declarations: [AppComponent, NavigationComponent, StatusPageComponent],
@@ -34,6 +36,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
         MatMenuModule,
         UserModule,
         UiModule,
+        EventsModule,
         ServiceWorkerModule.register('ngsw-worker.js', {
             enabled: !isDevMode(),
             // Register the ServiceWorker as soon as the application is stable
@@ -43,6 +46,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
     ],
     providers: [
         InitializerService,
+        { provide: MAT_DATE_LOCALE, useValue: 'fr-FR' },
         {
             provide: APP_INITIALIZER,
             useFactory: (initializer: InitializerService) => async () =>

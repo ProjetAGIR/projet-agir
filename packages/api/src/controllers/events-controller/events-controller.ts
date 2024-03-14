@@ -6,7 +6,7 @@ import { EventsService } from '../../services/events-service/events-service';
 import { auth } from '../../middlewares/auth';
 import { validateUser } from '../../middlewares/validate-user';
 import { UserRequest } from '../../types/requests';
-import { EventCreation } from 'common/models/events';
+import { EventCreation, EventResponse } from 'common/models/events';
 
 @singleton()
 export class EventsController extends AbstractController {
@@ -15,20 +15,28 @@ export class EventsController extends AbstractController {
     }
 
     protected configureRouter(router: Router): void {
-        router.get('/', async (req, res, next) => {
-            const { offset, limit } = req.query;
+        router.get(
+            '/',
+            auth,
+            validateUser,
+            async (req: UserRequest, res: Response, next) => {
+                const { offset, limit } = req.query;
 
-            try {
-                res.status(StatusCodes.OK).json(
-                    await this.eventsService.getUpcomingEvents({
-                        offset: offset ? Number(offset) : undefined,
-                        limit: limit ? Number(limit) : undefined,
-                    }),
-                );
-            } catch (error) {
-                next(error);
-            }
-        });
+                try {
+                    res.status(StatusCodes.OK).json(
+                        await this.eventsService.getUpcomingEvents(
+                            req.body.session.user.userId,
+                            {
+                                offset: offset ? Number(offset) : undefined,
+                                limit: limit ? Number(limit) : undefined,
+                            },
+                        ),
+                    );
+                } catch (error) {
+                    next(error);
+                }
+            },
+        );
 
         router.post(
             '/',
@@ -53,6 +61,32 @@ export class EventsController extends AbstractController {
                             eventDateEnd:
                                 req.body.eventDateEnd && req.body.eventDateEnd,
                         }),
+                    );
+                } catch (error) {
+                    next(error);
+                }
+            },
+        );
+
+        router.post(
+            '/:eventId/response',
+            auth,
+            validateUser,
+            async (
+                req: UserRequest<
+                    { eventId: number },
+                    { response: EventResponse }
+                >,
+                res: Response,
+                next,
+            ) => {
+                try {
+                    res.status(StatusCodes.OK).json(
+                        await this.eventsService.respondToEvent(
+                            req.body.session.user.userId,
+                            Number(req.params.eventId),
+                            req.body.response,
+                        ),
                     );
                 } catch (error) {
                     next(error);

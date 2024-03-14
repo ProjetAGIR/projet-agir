@@ -1,5 +1,8 @@
 export const HOME_ROUTE = '/';
 export const SWIPING_ROUTE = '/swiping';
+export const EVENTS_ROUTE = '/events';
+export const EVENT_ROUTE = '/events/:eventId';
+export const CREATE_EVENT_ROUTE = '/create-event';
 export const PROFILE_ROUTE = '/profile';
 export const PROFILE_EDIT_ROUTE = '/profile-edit';
 export const PROFILE_PREVIEW_ROUTE = '/profile-preview';

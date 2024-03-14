@@ -2,6 +2,9 @@ import { NgModule } from '@angular/core';
 import { Route, RouterModule, Routes } from '@angular/router';
 import { LoginPageComponent } from './authentication/pages/login-page/login-page.component';
 import {
+    CREATE_EVENT_ROUTE,
+    EVENTS_ROUTE,
+    EVENT_ROUTE,
     LOGIN_ROUTE,
     MATCHED_USER_PROFILE_ROUTE,
     MATCHED_USER_ROUTE,
@@ -25,6 +28,9 @@ import { RequestPasswordResetPageComponent } from './authentication/pages/reques
 import { PasswordResetPageComponent } from './authentication/pages/password-reset-page/password-reset-page.component';
 import { aboutRoutes } from './about/about-routing.module';
 import { MatchedUserProfilePageComponent } from './matching/pages/matched-user-profile-page/matched-user-profile-page.component';
+import { EventsPageComponent } from './events/pages/events-page/events-page.component';
+import { EventPageComponent } from './events/pages/event-page/event-page.component';
+import { CreateEventPageComponent } from './events/pages/create-event-page/create-event-page.component';
 
 const privateRoute: Route = {
     // canActivate: [privateRouteGuard],
@@ -38,6 +44,13 @@ const publicRoute: Route = {
 
 const routes: Routes = [
     { path: SWIPING_ROUTE, component: SwipingPageComponent, ...privateRoute },
+    { path: EVENTS_ROUTE, component: EventsPageComponent, ...privateRoute },
+    { path: EVENT_ROUTE, component: EventPageComponent, ...privateRoute },
+    {
+        path: CREATE_EVENT_ROUTE,
+        component: CreateEventPageComponent,
+        ...privateRoute,
+    },
     {
         path: PROFILE_ROUTE,
         component: UserProfilePageComponent,

@@ -83,13 +83,13 @@
         &--primary {
             background: linear-gradient(90deg, var(--theme-main), var(--theme-main-light));
             color: var(--theme-main-contrast);
-            border: none;
+            border-color: transparent;
         }
 
         &--danger {
             background-color: tomato;
             color: white;
-            border: none;
+            border-color: transparent;
         }
     }
 

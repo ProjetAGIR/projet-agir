@@ -1,0 +1,156 @@
+@import '../../../../styles/utils';
+
+.event-page {
+    $header-size: 350px;
+    $date-size: 100px;
+
+    &__header {
+        @include no-select;
+        
+        width: 100%;
+        height: $header-size;
+        max-width: 100%;
+        display: flex;
+        justify-content: center;
+        background: linear-gradient(rgba(0,0,0,0.15), rgba(0,0,0,0.025));
+        border-bottom-left-radius: 12px;
+        border-bottom-right-radius: 12px;
+
+        &__image {
+            border-radius: 12px;
+            height: 100%;
+            width: 100%;
+            max-width: $header-size * 16/9;
+        }
+    }
+
+    &__content {
+        margin-top: 20px;
+        padding: 0 24px 24px 24px;
+        max-width: 1024px;
+        margin: -($date-size / 1.5) auto 0 auto;
+
+        &__date {
+            @include no-select;
+
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            background-color: white;
+            border-radius: 12px;
+            aspect-ratio: 1;
+            width: $date-size;
+            overflow: hidden;
+            z-index: 1;
+            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.025), 0px 4px 8px rgba(0, 0, 0, 0.05);
+
+            &__month {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background-color: var(--theme-main);
+                color: var(--theme-main-contrast);
+                text-align: center;
+                text-transform: uppercase;
+                font-weight: 700;
+                font-size: 0.8em;
+                height: 26px;
+            }
+
+            &__day {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 3.5em;
+                font-weight: 600;
+                height: 70px;
+            }
+        }
+
+        &__main-info {
+            display: flex;
+            flex-direction: column;
+            padding: 24px 0;
+
+            &__date {
+                @include no-select;
+                margin: 0;
+                font-size: 1.2em;
+                font-weight: 600;
+                color: var(--theme-main);
+            }
+
+            &__title {
+                margin: 0;
+                font-size: 2em;
+                font-weight: 600;
+                line-height: 1.2em;
+            }
+        }
+
+        &__container {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 24px;
+
+            &__item {
+                background-color: var(--theme-background);
+                border: solid 1px rgb(240, 240, 240);
+                border-radius: 12px;
+                padding: 24px;
+
+                p {
+                    margin: 0;
+                }
+            }
+
+            &__info {
+                @include no-select;
+
+                ul {
+                    margin: 0;
+                    padding: 0;
+
+                    li {
+                        list-style: none;
+                        display: flex;
+                        gap: 6px;
+                        align-items: center;
+                        height: 3em;
+                        font-size: 1.2em;
+                        white-space: nowrap;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+
+                        i {
+                            opacity: 0.65;
+                            width: 18px;
+                            text-align: center;
+                            margin-right: 6px;
+                        }
+
+                        app-image {
+                            border-radius: 100%;
+                        }
+
+                        &:not(:last-child) {
+                            border-bottom: solid 1px rgb(240, 240, 240);
+                        }
+                    }
+                }
+            }
+
+            &__description {
+                font-size: 1.05em;
+            }
+        }
+    }
+
+    @media screen and (max-width: 1024px) {
+        &__content {
+            &__container {
+                grid-template-columns: minmax(0, 1fr);
+            }   
+        }
+    }
+}
