@@ -67,10 +67,10 @@ export class PublicProfileService {
         userId: TypeOfId<User>,
     ): Promise<NotLoadedPublicUserResult[]> {
         const db = this.databaseService.database;
-
+    
         const date = new Date();
         const seed = `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`;
-
+    
         const availableUsers: (NotLoadedPublicUserResult & {
             order?: number;
         })[] = await db
@@ -163,107 +163,16 @@ export class PublicProfileService {
                     null,
                 );
             })
-            .andWhere(function () {
-                this.where(function () {
-                    this.where(
-                        'activeUserProfile.genderPreference',
-                        '=',
-                        db.ref('targetUserProfile.genderCategory'),
-                    ).andWhere(
-                        'targetUserProfile.genderPreference',
-                        '=',
-                        db.ref('activeUserProfile.genderCategory'),
-                    );
-                })
-                    .orWhere(function () {
-                        this.where(
-                            'activeUserProfile.genderPreference',
-                            '=',
-                            'all',
-                        ).andWhere(
-                            'activeUserProfile.genderCategory',
-                            '=',
-                            'other',
-                        );
-                    })
-                    .orWhere(function () {
-                        this.where(
-                            'targetUserProfile.genderPreference',
-                            '=',
-                            'all',
-                        ).andWhere(
-                            'targetUserProfile.genderCategory',
-                            '=',
-                            'other',
-                        );
-                    })
-                    .orWhere(function () {
-                        this.where(
-                            'activeUserProfile.genderPreference',
-                            '=',
-                            'all',
-                        ).andWhere(function () {
-                            this.where(
-                                'targetUserProfile.genderPreference',
-                                '=',
-                                db.ref('activeUserProfile.genderCategory'),
-                            ).orWhere(
-                                'targetUserProfile.genderPreference',
-                                '=',
-                                'all',
-                            );
-                        });
-                    })
-                    .orWhere(function () {
-                        this.where(
-                            'activeUserProfile.genderCategory',
-                            '=',
-                            'other',
-                        ).andWhere(function () {
-                            this.orWhere(
-                                'activeUserProfile.genderPreference',
-                                '=',
-                                db.ref('targetUserProfile.genderCategory'),
-                            ).orWhere(
-                                'targetUserProfile.genderCategory',
-                                '=',
-                                'other',
-                            );
-                        });
-                    })
-                    .orWhere(function () {
-                        this.where(
-                            'targetUserProfile.genderPreference',
-                            '=',
-                            'all',
-                        ).andWhere(
-                            'targetUserProfile.genderCategory',
-                            '=',
-                            db.ref('activeUserProfile.genderPreference'),
-                        );
-                    })
-                    .orWhere(function () {
-                        this.where(
-                            'targetUserProfile.genderCategory',
-                            '=',
-                            'other',
-                        ).andWhere(
-                            'targetUserProfile.genderPreference',
-                            '=',
-                            db.ref('activeUserProfile.genderCategory'),
-                        );
-                    });
-            })
             .groupBy('targetUser.userId')
             .orderBy('order')
             .limit(1000);
-
+    
         return availableUsers.map((user) => {
             delete user.order;
-
+    
             return user;
         });
-    }
+    }    
 
     /**
      * Get the list of matches for a user

@@ -7,6 +7,8 @@ import { WsService } from '../ws-service/ws-service';
 import { ModerationService } from '../moderation-service/moderation-service';
 import { HttpException } from '../../models/http-exception';
 import { StatusCodes } from 'http-status-codes';
+import { UserProfileService } from '../user-profile-service/user-profile-service';
+
 
 @singleton()
 export class MatchingService {
@@ -15,6 +17,7 @@ export class MatchingService {
         private readonly userAliasService: UserAliasService,
         private readonly wsService: WsService,
         private readonly moderationService: ModerationService,
+        private readonly userProfileService: UserProfileService,
     ) {}
 
     private get matches(): Knex.QueryBuilder<Match> {
@@ -59,18 +62,22 @@ export class MatchingService {
             liked,
         });
 
-        if (
-            liked &&
-            (await this.swipes
+        // Check if the target user has the "Automatically connect" feature enabled
+        const autoConnectEnabled = (await this.userProfileService.getUserProfile(targetUserId)).automaticallyConnect;
+
+        if (liked) {
+            const hasMutualLike = await this.swipes
                 .select()
                 .where({
                     activeUserId: targetUserId,
                     targetUserId: activeUserId,
                     liked: true,
                 })
-                .first())
-        ) {
-            await this.matchUsers(activeUserId, targetUserId);
+                .first();
+
+            if (hasMutualLike || autoConnectEnabled) {
+                await this.matchUsers(activeUserId, targetUserId);
+            }
         }
     }
 
