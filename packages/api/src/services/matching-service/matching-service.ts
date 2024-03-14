@@ -16,7 +16,6 @@ export class MatchingService {
         private readonly userProfileService: UserProfileService,
         private readonly wsService: WsService,
         private readonly moderationService: ModerationService,
-        private readonly userProfileService: UserProfileService,
         private readonly notificationService: NotificationService,
     ) {}
 
