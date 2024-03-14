@@ -92,56 +92,60 @@ Then, the application stack is launched with Docker Compose to launch all the ne
 
 1. Clone the project
 
-    ```bash
-    git clone git@github.com:ProjetAGIR/projet-agir.git
-    ```
+   ```bash
+   git clone git@github.com:ProjetAGIR/projet-agir.git
+   ```
 
 2. Open the project in VSCode
 
-    ```bash
-    cd projet-agir
-    code .
-    ```
+   ```bash
+   cd projet-agir
+   code .
+   ```
 
 3. Click on the `Reopen in Container` button in the lower left corner of the interface. (This step may take some time the first time)
 
 4. Install packages dependencies, from each packages, run:
 
-    ```bash
-    npm ci
-    ```
+   ```bash
+   npm ci
+   ```
 
 5. Launch the stack
 
-    ```bash
-    make
-    ```
+   ```bash
+   make
+   ```
 
 6. Execute the initial dabaase migration, from the API package, run:
 
-    ```bash
-    npx knex migrate:latest
-    ```
+   ```bash
+   npx knex migrate:latest
+   ```
 
 7. Populate the database, from the API package, run:
 
-    ```bash
-    npx knex seed:run test-users
-    ```
-    After this step, you may need to restart the stack with `make down` and `make` to ensure the database is properly populated.
+   ```bash
+   npx knex seed:run test-users
+   ```
+
+   After this step, you may need to restart the stack with `make down` and `make` to ensure the database is properly populated.
 
 8. Open the app in your browser at [http://localhost:4200](http://localhost:4200). You can login with any user from the [seeds](./packages/api/seeds/test-users.js) file (but leaving the password blank).
 
-    This command will launch the following services:
-    - **[API](./packages/api)** (http://localhost:3000): Public API of the application
-    - **[API Admin](./packages/api)** (http://localhost:3001): Private API for the admin (same package as API)
-    - **[Client](./packages/client)** (http://localhost:4200): Web client for the app
-    - **[Admin](./packages/admin)** (http://localhost:4201): Web client for the admin
-    - **[Storybook](./packages/client)** (http://localhost:6006): Storybook for the client
+   This command will launch the following services:
+
+   - **[API](./packages/api)** (http://localhost:3000): Public API of the application
+   - **[API Admin](./packages/api)** (http://localhost:3001): Private API for the admin (same package as API)
+   - **[Client](./packages/client)** (http://localhost:4200): Web client for the app
+   - **[Admin](./packages/admin)** (http://localhost:4201): Web client for the admin
+   - **[Storybook](./packages/client)** (http://localhost:6006): Storybook for the client
 
 ### Tips and tricks
 
 - **Install the `Docker` extension in VSCode**: Since the start command creates multiple containers, the console will output all the logs from all the containers. This can be confusing. The `Docker` extension allows you to see the logs of each container separately.
+
+- **Push Notifications**: When developing new features using the push notifications feature, you have to enable service workers in dev mode in the `packages/client/src/app.module.ts` file.
 
 ## 📄 More documentation
 
