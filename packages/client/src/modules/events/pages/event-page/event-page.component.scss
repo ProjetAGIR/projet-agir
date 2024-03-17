@@ -1,4 +1,5 @@
 @import '../../../../styles/utils';
+@import '../../../../styles/variables';
 
 .event-page {
     $header-size: 350px;
@@ -21,6 +22,11 @@
             height: 100%;
             width: 100%;
             max-width: $header-size * 16/9;
+
+            @media screen and (max-width: $mobile-breakpoint) {
+                border-top-left-radius: 0;
+                border-top-right-radius: 0;
+            }
         }
     }
 

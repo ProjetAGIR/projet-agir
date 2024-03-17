@@ -149,7 +149,7 @@ export class EventsService {
             .orderBy('eventDateStart', 'asc');
     }
 
-    async createEvent(event: EventCreation): Promise<Event> {
+    async createEvent(event: EventCreation): Promise<EventExtended> {
         if (!event.eventDateEnd) {
             event.eventDateEnd = event.eventDateStart;
         }
@@ -170,9 +170,16 @@ export class EventsService {
             event.repeatPattern = 'none';
         }
 
-        const [createdEvent] = await this.events.insert(event).returning('*');
+        const [createdEvent]: number[] = await this.events.insert({
+            ...event,
+            eventDateStart: new Date(event.eventDateStart),
+            eventDateEnd: new Date(event.eventDateEnd),
+        });
 
-        return createdEvent;
+        return this.getEvent(
+            createdEvent,
+            event.userId,
+        ) as Promise<EventExtended>;
     }
 
     async respondToEvent(

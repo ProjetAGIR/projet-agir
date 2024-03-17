@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { BehaviorSubject } from 'rxjs';
+import { catchError, of } from 'rxjs';
+import { EventsService } from '../../services/events.service';
+import { EventCreation } from 'common/models/events';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-create-event-page',
@@ -8,52 +11,30 @@ import { BehaviorSubject } from 'rxjs';
     styleUrls: ['./create-event-page.component.scss'],
 })
 export class CreateEventPageComponent {
-    newEventForm = new FormGroup({
-        eventName: new FormControl('', [
-            Validators.required,
-            Validators.minLength(3),
-            Validators.maxLength(255),
-        ]),
-        eventDescription: new FormControl('', [
-            Validators.required,
-            Validators.minLength(3),
-            Validators.maxLength(255),
-        ]),
-        eventLocation: new FormControl('', [
-            Validators.required,
-            Validators.minLength(3),
-            Validators.maxLength(255),
-        ]),
-        eventCategory: new FormControl('', [
-            Validators.required,
-            Validators.minLength(3),
-            Validators.maxLength(255),
-        ]),
-        eventPicture: new FormControl('', [
-            Validators.required,
-            Validators.minLength(3),
-            Validators.maxLength(255),
-        ]),
-        eventDateStart: new FormControl('', [Validators.required]),
-        eventHourStart: new FormControl<number>(0, [
-            Validators.required,
-            Validators.min(0),
-            Validators.max(23),
-        ]),
-        eventMinuteStart: new FormControl<number>(0, [
-            Validators.required,
-            Validators.min(0),
-            Validators.max(59),
-        ]),
-        eventDateEnd: new FormControl('', []),
-        eventHourEnd: new FormControl<number>(0, [
-            Validators.min(0),
-            Validators.max(23),
-        ]),
-        eventMinuteEnd: new FormControl<number>(0, [
-            Validators.min(0),
-            Validators.max(59),
-        ]),
-    });
-    picture = new BehaviorSubject<string | undefined>(undefined);
+    constructor(
+        private readonly eventsService: EventsService,
+        private readonly snackBar: MatSnackBar,
+        private readonly router: Router,
+    ) {}
+
+    handleSubmit(newEvent: Omit<EventCreation, 'userId'>) {
+        this.eventsService
+            .createEvent(newEvent)
+            .pipe(
+                catchError((err) => {
+                    // eslint-disable-next-line no-console
+                    console.error(err);
+                    this.snackBar.open('Un erreur est survenu', 'OK', {
+                        duration: 3000,
+                    });
+                    return of(undefined);
+                }),
+            )
+            .subscribe((event) => {
+                this.snackBar.open('Événement créé', 'OK', {
+                    duration: 3000,
+                });
+                this.router.navigate(['/events', event?.eventId]);
+            });
+    }
 }

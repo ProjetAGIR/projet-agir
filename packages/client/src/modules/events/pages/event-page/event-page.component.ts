@@ -67,11 +67,30 @@ export class EventPageComponent {
             return `Du ${start.toLocaleDateString('fr-FR', {
                 day: 'numeric',
                 month: 'long',
+            })} à ${start.toLocaleTimeString('fr-FR', {
+                hour: 'numeric',
+                minute: 'numeric',
             })} au ${end.toLocaleDateString('fr-FR', {
                 day: 'numeric',
                 month: 'long',
+            })} à ${end.toLocaleTimeString('fr-FR', {
+                hour: 'numeric',
+                minute: 'numeric',
             })}`;
         }
+    }
+
+    getAbsoluteDateStr(date: Date) {
+        return date.getFullYear() === new Date().getFullYear()
+            ? date.toLocaleDateString('fr-FR', {
+                  day: 'numeric',
+                  month: 'long',
+              })
+            : date.toLocaleDateString('fr-FR', {
+                  day: 'numeric',
+                  month: 'long',
+                  year: 'numeric',
+              });
     }
 
     handleResponse(

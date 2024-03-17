@@ -1,6 +1,10 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, combineLatest, map, tap } from 'rxjs';
-import { EventExtended, EventResponse } from 'common/models/events';
+import {
+    EventExtended,
+    EventResponse,
+    EventCreation,
+} from 'common/models/events';
 import { HttpClient } from '@angular/common/http';
 import { SessionService } from 'src/modules/authentication/services/session-service/session.service';
 import { ValidationService } from 'src/modules/validation/services/validation.service';
@@ -90,5 +94,20 @@ export class EventsService {
                     this.upcomingEvents$.next(updatedEvents);
                 }),
             );
+    }
+
+    createEvent(
+        event: Omit<EventCreation, 'userId'>,
+    ): Observable<EventExtended> {
+        return this.http.post<EventExtended>('/events', event).pipe(
+            tap((newEvent) => {
+                newEvent.eventDateStart = new Date(newEvent.eventDateStart);
+                newEvent.eventDateEnd = new Date(newEvent.eventDateEnd);
+
+                const updatedEvents = this.upcomingEvents$.getValue();
+                updatedEvents[newEvent.eventId] = newEvent;
+                this.upcomingEvents$.next(updatedEvents);
+            }),
+        );
     }
 }

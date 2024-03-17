@@ -22,6 +22,7 @@
             </div>
 
             <div class="event-page__content__main-info">
+                <app-button icon="far fa-arrow-left" routerLink="/events" style="align-self: start;margin-bottom: 4px;">Liste des événements</app-button>
                 <h2 class="event-page__content__main-info__date">{{getDateStr(event.eventDateStart, event.eventDateEnd)}}</h2>
                 <h1 class="event-page__content__main-info__title">{{event.eventName}}</h1>
             </div>
@@ -60,6 +61,14 @@
                             <ng-container *ngIf="event.interestedParticipants > 1">
                                 <b>{{event.interestedParticipants}} personnes</b> sont intéressées
                             </ng-container>
+                        </li>
+                        <li>
+                            <i class="fas fa-calendar"></i>
+                            Débute le <b>{{getAbsoluteDateStr(event.eventDateStart)}}</b> à <b>{{event.eventDateStart | date: 'HH:mm'}}</b>
+                        </li>
+                        <li>
+                            <i class="fas fa-calendar"></i>
+                            Se termine le <b>{{getAbsoluteDateStr(event.eventDateEnd)}}</b> à <b>{{event.eventDateEnd | date: 'HH:mm'}}</b>
                         </li>
                     </ul>
                 </div>
