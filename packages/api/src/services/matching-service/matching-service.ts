@@ -2,19 +2,21 @@ import { Knex } from 'knex';
 import { singleton } from 'tsyringe';
 import { DatabaseService } from '../database-service/database-service';
 import { Match, Swipe } from 'common/models/matching';
-import { UserAliasService } from '../user-alias-service/user-alias-service';
 import { WsService } from '../ws-service/ws-service';
 import { ModerationService } from '../moderation-service/moderation-service';
 import { HttpException } from '../../models/http-exception';
 import { StatusCodes } from 'http-status-codes';
+import { NotificationService } from '../notification-service/notification-service';
+import { UserProfileService } from '../user-profile-service/user-profile-service';
 
 @singleton()
 export class MatchingService {
     constructor(
         private readonly databaseService: DatabaseService,
-        private readonly userAliasService: UserAliasService,
+        private readonly userProfileService: UserProfileService,
         private readonly wsService: WsService,
         private readonly moderationService: ModerationService,
+        private readonly notificationService: NotificationService,
     ) {}
 
     private get matches(): Knex.QueryBuilder<Match> {
@@ -59,18 +61,22 @@ export class MatchingService {
             liked,
         });
 
-        if (
-            liked &&
-            (await this.swipes
+        // Check if the target user has the "Automatically connect" feature enabled
+        const autoConnectEnabled = (await this.userProfileService.getUserProfile(targetUserId)).automaticallyConnect;
+
+        if (liked) {
+            const hasMutualLike = await this.swipes
                 .select()
                 .where({
                     activeUserId: targetUserId,
                     targetUserId: activeUserId,
                     liked: true,
                 })
-                .first())
-        ) {
-            await this.matchUsers(activeUserId, targetUserId);
+                .first();
+
+            if (hasMutualLike || autoConnectEnabled) {
+                await this.matchUsers(activeUserId, targetUserId);
+            }
         }
     }
 
@@ -147,6 +153,24 @@ export class MatchingService {
             user1Id: activeUserId,
             user2Id: targetUserId,
         });
+
+        const activeUser = await this.userProfileService.getUserProfile(
+            activeUserId,
+        );
+        const targetUser = await this.userProfileService.getUserProfile(
+            activeUserId,
+        );
+
+        this.notificationService.notifyUser(
+            activeUserId,
+            'matches',
+            `Vous avez matché avec ${targetUser.name} !`,
+        );
+        this.notificationService.notifyUser(
+            targetUserId,
+            'matches',
+            `Vous avez matché avec ${activeUser.name} !`,
+        );
 
         this.wsService.emitToUserIfConnected(
             activeUserId,

@@ -38,6 +38,8 @@ import { MAT_DATE_LOCALE } from '@angular/material/core';
         UiModule,
         EventsModule,
         ServiceWorkerModule.register('ngsw-worker.js', {
+            // When testing notifications in dev mode, uncomment the line below
+            // enables: true,
             enabled: !isDevMode(),
             // Register the ServiceWorker as soon as the application is stable
             // or after 30 seconds (whichever comes first).

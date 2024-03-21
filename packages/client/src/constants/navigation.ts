@@ -26,8 +26,8 @@ export const NAVIGATION: NavigationItem[] = [
         icon: 'calendar',
     },
     {
-        text: 'Mes matchs',
-        shortText: 'Matchs',
+        text: 'Mes Connexions',
+        shortText: 'Connexions',
         href: MATCHES_ROUTE,
         icon: 'comment',
     },
