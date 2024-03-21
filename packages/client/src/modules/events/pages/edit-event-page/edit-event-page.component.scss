@@ -1,0 +1,11 @@
+@import '../../../../styles/variables';
+
+main {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    
+    @media screen and (max-width: $mobile-breakpoint) {
+        gap: 12px;
+    }
+}

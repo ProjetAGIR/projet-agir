@@ -1,0 +1,46 @@
+@import '../../../../styles/variables';
+@import '../../../../styles/utils';
+@import '../../events-variables.scss';
+
+.no-event-message {
+    display: flex;
+    height: calc(100% - 24px);
+    justify-content: center;
+    align-items: center;
+    font-size: 2em;
+    opacity: 0.55;
+}
+
+main {
+    padding: 0 24px 24px 24px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 24px;
+
+    @media screen and (max-width: $mobile-breakpoint) {
+        padding: 0 0 12px 0;
+        gap: 12px;
+    }
+
+    .events-container {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr);
+        gap: 12px;
+        align-items: stretch;
+
+        @media screen and (min-width: $small-breakpoint) and (max-width: $mobile-breakpoint) {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 12px;
+        }
+
+        @media screen and (min-width: $mobile-breakpoint) and (max-width: 700px) {
+            grid-template-columns: minmax(0, 1fr);
+            gap: 24px;
+        }
+
+        @media screen and (min-width: 700px) {
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 24px;
+        }
+    }
+}

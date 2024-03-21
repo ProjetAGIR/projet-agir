@@ -1,0 +1,8 @@
+<app-layout headerType="transparent">
+    <app-layout-action layout-action-left icon="fas fa-chevron-left" link="/events"></app-layout-action>
+    <span layout-title>Créer un événement</span>
+
+    <main>
+        <app-event-form submitText="Créer l'événement" (submit)="handleSubmit($event)"></app-event-form>
+    </main>
+</app-layout>

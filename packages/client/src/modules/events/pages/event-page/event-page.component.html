@@ -1,0 +1,81 @@
+<app-layout headerType="hidden" *ngIf="event$ | async; let event">
+    <!-- <span layout-title>{{event.eventName}}</span> -->
+
+    <main>
+        <div class="event-page__header">
+            <app-image
+                class="event-page__header__image"
+                [publicID]="event.eventPicture"
+                [size]="{ width: 1200, ratio: 9 / 16 }"
+                [inferSize]="true"
+            ></app-image>
+        </div>
+
+        <div class="event-page__content">
+            <div class="event-page__content__date">
+                <div class="event-page__content__date__month">
+                    {{isThisMonth(event.eventDateStart) ? '' : getMonth(event.eventDateStart)}}
+                </div>
+                <div class="event-page__content__date__day">
+                    {{event.eventDateStart | date: 'd'}}
+                </div>
+            </div>
+
+            <div class="event-page__content__main-info">
+                <app-button icon="far fa-arrow-left" routerLink="/events" style="align-self: start;margin-bottom: 4px;">Liste des événements</app-button>
+                <h2 class="event-page__content__main-info__date">{{getDateStr(event.eventDateStart, event.eventDateEnd)}}</h2>
+                <h1 class="event-page__content__main-info__title">{{event.eventName}}</h1>
+            </div>
+
+            <div class="event-page__content__container">
+                <div class="event-page__content__container__item event-page__content__container__info">
+                    <ul>
+                        <li>
+                            <i class="fas fa-user"></i>
+                            <span>Organisé par</span>
+                            <app-image
+                                class="event-page__content__container__info__image"
+                                [publicID]="event.organizerPicture"
+                                [size]="{ width: 20, ratio: 1 }"
+                            ></app-image>
+                            <b>{{event.organizerName}}</b>
+                        </li>
+                        <li>
+                            <i class="fas fa-map-pin"></i>
+                            À <b>{{event.eventLocation}}</b>
+                        </li>
+                        <li *ngIf="event.goingParticipants">
+                            <i class="fas fa-user-check"></i>
+                            <ng-container *ngIf="event.goingParticipants == 1">
+                                <b>1 personne</b> participe
+                            </ng-container>
+                            <ng-container *ngIf="event.goingParticipants > 1">
+                                <b>{{event.goingParticipants}} personnes</b> participent
+                            </ng-container>
+                        </li>
+                        <li *ngIf="event.interestedParticipants">
+                            <i class="fas fa-star"></i>
+                            <ng-container *ngIf="event.interestedParticipants == 1">
+                                <b>1 personne</b> est intéressée
+                            </ng-container>
+                            <ng-container *ngIf="event.interestedParticipants > 1">
+                                <b>{{event.interestedParticipants}} personnes</b> sont intéressées
+                            </ng-container>
+                        </li>
+                        <li>
+                            <i class="fas fa-calendar"></i>
+                            Débute le <b>{{getAbsoluteDateStr(event.eventDateStart)}}</b> à <b>{{event.eventDateStart | date: 'HH:mm'}}</b>
+                        </li>
+                        <li>
+                            <i class="fas fa-calendar"></i>
+                            Se termine le <b>{{getAbsoluteDateStr(event.eventDateEnd)}}</b> à <b>{{event.eventDateEnd | date: 'HH:mm'}}</b>
+                        </li>
+                    </ul>
+                </div>
+                <div class="event-page__content__container__item event-page__content__container__description">
+                    <p>{{event.eventDescription}}</p>
+                </div>
+            </div>
+        </div>
+    </main>
+</app-layout>

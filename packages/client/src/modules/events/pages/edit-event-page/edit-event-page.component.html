@@ -1,0 +1,13 @@
+<app-layout headerType="transparent">
+    <app-layout-action layout-action-left icon="fas fa-chevron-left" link="/events"></app-layout-action>
+    <span layout-title>Modifier mon événement</span>
+
+    <main>
+        <app-event-form *ngIf="event$ | async; let event" [initialValue]="event" submitText="Modifier l'événement" (submit)="handleSubmit($event)"></app-event-form>
+
+        <app-card title="Supprimer l'événement" icon="fas fa-trash">
+            <p>Attention, cette action est irréversible.</p>
+            <app-button (btnClick)="handleDelete()" icon="fas fa-trash" color="danger">Supprimer l'événement</app-button>
+        </app-card>
+    </main>
+</app-layout>

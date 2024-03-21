@@ -1,0 +1,90 @@
+<form [formGroup]="newEventForm" class="form" (submit)="handleSubmit()">
+    <app-card title="Photo de l'événement" icon="fas fa-camera-retro">
+        <div class="form__picture">
+            <app-image-control
+                class="form__picture__control"
+                [value]="picture"
+            ></app-image-control>
+        </div>
+    </app-card>
+
+    <app-card title="Information" icon="fas fa-calendar">
+        <mat-form-field>
+            <mat-label><i class="fas fa-signature"></i> Nom de l'événement</mat-label>
+            <input formControlName="eventName" matInput>
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label><i class="fas fa-align-left"></i> Description</mat-label>
+            <textarea formControlName="eventDescription" matInput></textarea>
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label><i class="fas fa-map-pin"></i> Emplacement</mat-label>
+            <input formControlName="eventLocation" matInput>
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label><i class="fas fa-chess-pawn"></i> Catégorie</mat-label>
+            <input formControlName="eventCategory" matInput>
+        </mat-form-field>
+    </app-card>
+
+    <app-card title="Date et heure" icon="fas fa-clock">
+        <div class="form__datetime__start">
+            <mat-form-field>
+                <mat-label>Date de début</mat-label>
+                <input matInput [matDatepicker]="eventDateStart" formControlName="eventDateStart">
+                <mat-hint>DD/MM/YYYY</mat-hint>
+                <mat-datepicker-toggle matIconSuffix [for]="eventDateStart"></mat-datepicker-toggle>
+                <mat-datepicker #eventDateStart></mat-datepicker>
+            </mat-form-field>
+            
+            <div class="form__datetime__time">
+                <mat-form-field>
+                    <mat-label>HH</mat-label>
+                    <input matInput formControlName="eventHourStart" type="number">
+                </mat-form-field>
+                
+                <mat-form-field>
+                    <mat-label>MM</mat-label>
+                    <input matInput formControlName="eventMinuteStart" type="number">
+                </mat-form-field>
+            </div>
+        </div>
+        
+        <div class="form__datetime__end">
+            <mat-form-field>
+                <mat-label>Date de fin</mat-label>
+                <input matInput [matDatepicker]="eventDateEnd" formControlName="eventDateEnd">
+                <mat-hint>DD/MM/YYYY</mat-hint>
+                <mat-datepicker-toggle matIconSuffix [for]="eventDateEnd"></mat-datepicker-toggle>
+                <mat-datepicker #eventDateEnd></mat-datepicker>
+            </mat-form-field>
+
+            <div class="form__datetime__time">
+                <mat-form-field>
+                    <mat-label>HH</mat-label>
+                    <input matInput formControlName="eventHourEnd" type="number">
+                </mat-form-field>
+
+                <mat-form-field>
+                    <mat-label>MM</mat-label>
+                    <input matInput formControlName="eventMinuteEnd" type="number">
+                </mat-form-field>
+            </div>
+        </div>
+    </app-card>
+
+    <app-card>
+        <app-button
+            color="primary"
+            interactable="small"
+            icon="fas fa-calendar-plus"
+            (btnClick)="handleSubmit()"
+            [disabled]="newEventForm.invalid"
+        >
+            {{submitText}}
+        </app-button>
+    </app-card>
+</form>

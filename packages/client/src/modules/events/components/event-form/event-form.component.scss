@@ -1,0 +1,52 @@
+@import '../../../../styles/variables';
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+
+    &__picture {
+        aspect-ratio: 16/9;
+        max-width: 500px;
+    }
+
+    mat-form-field {
+        width: 100%;
+    }
+
+    &__datetime {
+        &__start,
+        &__end {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 12px;
+        }
+
+        &__time {
+            mat-form-field {
+                width: 75px;
+
+                &:first-child {
+                    ::ng-deep {
+                        .mdc-notched-outline__trailing {
+                            border-radius: 0;
+                        }
+                    }
+                }
+
+                &:last-child {
+                    margin-left: -1px;
+                    ::ng-deep {
+                        .mdc-notched-outline__leading {
+                            border-radius: 0;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    @media screen and (max-width: $mobile-breakpoint) {
+        gap: 12px;
+    }
+}

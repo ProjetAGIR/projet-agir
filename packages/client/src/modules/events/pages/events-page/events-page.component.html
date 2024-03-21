@@ -1,0 +1,16 @@
+<app-layout headerType="transparent">
+    <span layout-title>Événements</span>
+    <app-layout-action layout-action-right icon="fas fa-calendar-plus" [link]="'/create-event'"></app-layout-action>
+
+    <ng-container *ngIf="upcomingEvents | async; let upcomingEvents">
+        <p *ngIf="(loaded | async) && upcomingEvents.length === 0" class="no-event-message">
+            Aucun événement à venir.
+        </p>
+    </ng-container>
+
+    <main *ngIf="upcomingEvents | async; let upcomingEvents">
+        <div class="events-container">
+            <app-event-card *ngFor="let event of upcomingEvents" [event]="event"></app-event-card>
+        </div>
+    </main>
+</app-layout>

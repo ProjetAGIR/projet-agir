@@ -1,0 +1,14 @@
+@import '../../../../styles/variables';
+@import '../../../../styles/utils';
+
+main {
+    padding: 0 24px 24px 24px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 24px;
+
+    @media screen and (max-width: $mobile-breakpoint) {
+        padding: 0 0 12px 0;
+        gap: 12px;
+    }
+}

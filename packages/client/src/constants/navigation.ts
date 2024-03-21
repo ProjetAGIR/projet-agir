@@ -1,4 +1,9 @@
-import { MATCHES_ROUTE, PROFILE_ROUTE, SWIPING_ROUTE } from './routes';
+import {
+    EVENTS_ROUTE,
+    MATCHES_ROUTE,
+    PROFILE_ROUTE,
+    SWIPING_ROUTE,
+} from './routes';
 
 export interface NavigationItem {
     text: string;
@@ -13,6 +18,12 @@ export const NAVIGATION: NavigationItem[] = [
         shortText: 'Découvrir',
         href: SWIPING_ROUTE,
         icon: 'telescope',
+    },
+    {
+        text: 'Événements',
+        shortText: 'Événements',
+        href: EVENTS_ROUTE,
+        icon: 'calendar',
     },
     {
         text: 'Mes Connexions',

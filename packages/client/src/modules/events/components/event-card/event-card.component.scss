@@ -1,0 +1,183 @@
+@import '../../../../styles/utils';
+@import '../../events-variables.scss';
+
+.event-card {
+    @include no-select;
+
+    background-color: var(--theme-background);
+    border: solid 1px rgb(240, 240, 240);
+    color: var(--theme-background-contrast);
+    display: flex;
+    flex-direction: column;
+    border-radius: 12px;
+    overflow: hidden;
+
+    &__thumbnail {
+        position: relative;
+    }
+
+    &__image {
+        cursor: pointer;
+        overflow: hidden;
+    }
+
+    &__edit-btn {
+        position: absolute;
+        top: 0;
+        right: 0;
+        margin: 12px;
+        background-color: var(--theme-background);
+        color: var(--theme-background-contrast);
+        padding: 8px;
+        border: solid 1px rgb(240, 240, 240);
+        border-radius: 50%;
+        aspect-ratio: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 0.9em;
+    }
+
+    &__content {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        box-sizing: border-box;
+        padding: 12px;
+        gap: 12px;
+
+        h3, p {
+            margin: 0;
+        }
+
+        &__info {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            cursor: pointer;
+
+            &__title {
+                font-size: 1.1em;
+                line-height: 1.1em;;
+                font-weight: 600;
+                overflow: hidden;
+                white-space: nowrap;
+                text-wrap: nowrap;
+                width: 100%;
+                text-overflow: ellipsis;
+            }
+    
+            &__date {
+                font-size: 0.9em;
+                font-weight: 700;
+                color: var(--theme-main);
+            }
+    
+            &__description {
+                font-size: 0.9em;
+                opacity: 0.65;
+                overflow: hidden;
+                white-space: nowrap;
+                text-wrap: nowrap;
+                width: 100%;
+                text-overflow: ellipsis;
+            }
+    
+            &__more {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+    
+            &__organizer {
+                display: flex;
+                align-items: center;
+                gap: 6px;
+                font-size: 0.8em;
+    
+                &__image {
+                    height: 20px;
+                    width: 20px;
+                    border-radius: 100%;
+                }
+    
+                span {
+                    opacity: 0.65;
+                }
+            }
+    
+            &__participants {
+                display: flex;
+                align-items: center;
+                gap: 6px;
+                font-size: 0.8em;
+                opacity: 0.65;
+            }
+        }
+
+
+        &__actions {
+            display: flex;
+            gap: 6px;
+            align-items: stretch;
+
+            &__btn {
+                ::ng-deep {
+                    .btn {
+                        height: 100%;
+                    }
+                }
+
+                &--interested {
+                    flex-grow: 1;
+                }
+            }
+        }
+    }
+
+    &--compact {
+        flex-direction: row;
+        padding: 6px 12px 6px 6px;
+        align-items: center;
+        gap: 12px;
+
+        .event-card__image {
+            border-radius: 7px;
+            width: 64px;
+            height: 64px;
+        }
+
+        .event-card__content {
+            flex-direction: row;
+            padding: 0;
+
+            &__info {
+                flex: 1;
+            }
+        }
+    }
+
+    @media screen and (max-width: $small-breakpoint) {
+        border-radius: 0;
+        border-left: 0;
+        border-right: 0;
+    }
+}
+
+.response-menu {
+    &__btn {
+        display: flex;
+        align-items: center;
+        width: 250px;
+        gap: 6px;
+
+        i {
+            padding: 6px;
+        }
+
+        &__text {
+            // width: 180px;
+            flex: 1;
+        }
+    }
+}
