@@ -147,6 +147,10 @@
                 &.fa-heart {
                     color: var(--theme-main);
                 }
+
+                &.fa-thumbs-up {
+                    color: #66bd80;
+                }
             }
 
             &__direction {
@@ -244,7 +248,7 @@
             box-shadow: $default-shadow;
 
             &--like {
-                color: var(--theme-main);
+                color: #66bd80;
                 i {
                     padding-top: 5px;
                 }
