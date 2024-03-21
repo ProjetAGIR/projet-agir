@@ -16,6 +16,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MAT_DATE_LOCALE, MatNativeDateModule } from '@angular/material/core';
 import { EventFormComponent } from './components/event-form/event-form.component';
+import { EditEventPageComponent } from './pages/edit-event-page/edit-event-page.component';
 
 @NgModule({
     declarations: [
@@ -24,6 +25,7 @@ import { EventFormComponent } from './components/event-form/event-form.component
         EventPageComponent,
         CreateEventPageComponent,
         EventFormComponent,
+        EditEventPageComponent,
     ],
     imports: [
         CommonModule,

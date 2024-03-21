@@ -68,6 +68,41 @@ export class EventsController extends AbstractController {
             },
         );
 
+        router.patch(
+            '/:eventId',
+            auth,
+            validateUser,
+            async (
+                req: UserRequest<{ eventId: number }, EventCreation>,
+                res: Response,
+                next,
+            ) => {
+                try {
+                    res.status(StatusCodes.OK).json(
+                        await this.eventsService.updateEvent(
+                            req.body.session.user.userId,
+                            Number(req.params.eventId),
+                            {
+                                eventName: req.body.eventName,
+                                eventDescription: req.body.eventDescription,
+                                eventLocation: req.body.eventLocation,
+                                eventCategory: req.body.eventCategory,
+                                eventPicture: req.body.eventPicture,
+                                repeatPattern: req.body.repeatPattern,
+                                eventDateStart: req.body.eventDateStart,
+                                eventDateEnd:
+                                    req.body.eventDateEnd &&
+                                    req.body.eventDateEnd,
+                                userId: req.body.userId,
+                            },
+                        ),
+                    );
+                } catch (error) {
+                    next(error);
+                }
+            },
+        );
+
         router.post(
             '/:eventId/response',
             auth,

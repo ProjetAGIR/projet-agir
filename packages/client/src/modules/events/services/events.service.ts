@@ -110,4 +110,22 @@ export class EventsService {
             }),
         );
     }
+
+    updateEvent(
+        eventId: number,
+        event: Omit<EventCreation, 'userId'>,
+    ): Observable<EventExtended> {
+        return this.http.patch<EventExtended>(`/events/${eventId}`, event).pipe(
+            tap((updatedEvent) => {
+                updatedEvent.eventDateStart = new Date(
+                    updatedEvent.eventDateStart,
+                );
+                updatedEvent.eventDateEnd = new Date(updatedEvent.eventDateEnd);
+
+                const updatedEvents = this.upcomingEvents$.getValue();
+                updatedEvents[updatedEvent.eventId] = updatedEvent;
+                this.upcomingEvents$.next(updatedEvents);
+            }),
+        );
+    }
 }

@@ -12,15 +12,30 @@
     border-radius: 12px;
     overflow: hidden;
 
+    &__thumbnail {
+        position: relative;
+    }
+
     &__image {
         cursor: pointer;
         overflow: hidden;
-        transition: ease-in-out scale 0.1s;
+    }
 
-        &:hover {
-            scale: 1.05;
-            transition: ease-in-out scale 0.1s;
-        }
+    &__edit-btn {
+        position: absolute;
+        top: 0;
+        right: 0;
+        margin: 12px;
+        background-color: var(--theme-background);
+        color: var(--theme-background-contrast);
+        padding: 8px;
+        border: solid 1px rgb(240, 240, 240);
+        border-radius: 50%;
+        aspect-ratio: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 0.9em;
     }
 
     &__content {

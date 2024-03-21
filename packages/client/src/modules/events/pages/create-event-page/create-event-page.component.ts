@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { catchError, of } from 'rxjs';
 import { EventsService } from '../../services/events.service';
 import { EventCreation } from 'common/models/events';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -18,23 +17,20 @@ export class CreateEventPageComponent {
     ) {}
 
     handleSubmit(newEvent: Omit<EventCreation, 'userId'>) {
-        this.eventsService
-            .createEvent(newEvent)
-            .pipe(
-                catchError((err) => {
-                    // eslint-disable-next-line no-console
-                    console.error(err);
-                    this.snackBar.open('Un erreur est survenu', 'OK', {
-                        duration: 3000,
-                    });
-                    return of(undefined);
-                }),
-            )
-            .subscribe((event) => {
+        this.eventsService.createEvent(newEvent).subscribe({
+            next: (event) => {
                 this.snackBar.open('Événement créé', 'OK', {
                     duration: 3000,
                 });
                 this.router.navigate(['/events', event?.eventId]);
-            });
+            },
+            error: (error) => {
+                // eslint-disable-next-line no-console
+                console.error(error);
+                this.snackBar.open('Une erreur est survenue', 'OK', {
+                    duration: 3000,
+                });
+            },
+        });
     }
 }

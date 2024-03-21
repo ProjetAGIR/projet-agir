@@ -150,36 +150,39 @@ export class EventsService {
     }
 
     async createEvent(event: EventCreation): Promise<EventExtended> {
-        if (!event.eventDateEnd) {
-            event.eventDateEnd = event.eventDateStart;
-        }
-
-        if (event.eventDateEnd < event.eventDateStart) {
-            throw new Error('Event end date must be after start date');
-        }
-
-        if (event.repeatPattern) {
-            if (!EVENT_PATTERNS.includes(event.repeatPattern)) {
-                throw new Error(
-                    `Invalid event repeat pattern. Found "${
-                        event.repeatPattern
-                    }", expected one of ${EVENT_PATTERNS.join(', ')}`,
-                );
-            }
-        } else {
-            event.repeatPattern = 'none';
-        }
+        this.validateEvent(event);
 
         const [createdEvent]: number[] = await this.events.insert({
             ...event,
             eventDateStart: new Date(event.eventDateStart),
-            eventDateEnd: new Date(event.eventDateEnd),
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            eventDateEnd: new Date(event.eventDateEnd!),
         });
 
         return this.getEvent(
             createdEvent,
             event.userId,
         ) as Promise<EventExtended>;
+    }
+
+    async updateEvent(
+        userId: number,
+        eventId: number,
+        event: EventCreation,
+    ): Promise<EventExtended> {
+        this.validateEvent(event);
+
+        await this.events.where('eventId', eventId).update({
+            ...event,
+            eventDateStart: event.eventDateStart
+                ? new Date(event.eventDateStart)
+                : undefined,
+            eventDateEnd: event.eventDateEnd
+                ? new Date(event.eventDateEnd)
+                : undefined,
+        });
+
+        return this.getEvent(eventId, userId) as Promise<EventExtended>;
     }
 
     async respondToEvent(
@@ -208,5 +211,51 @@ export class EventsService {
             });
 
         return this.getEvent(eventId, userId) as Promise<EventExtended>;
+    }
+
+    private validateEvent(
+        event: EventCreation,
+    ): event is Omit<EventCreation, 'eventDateEnd'> & { eventDateEnd: Date } {
+        if (!event.eventName) {
+            throw new Error('Event name is required');
+        }
+
+        if (!event.eventDescription) {
+            throw new Error('Event description is required');
+        }
+
+        if (!event.eventLocation) {
+            throw new Error('Event location is required');
+        }
+
+        if (!event.eventCategory) {
+            throw new Error('Event category is required');
+        }
+
+        if (!event.eventDateStart) {
+            throw new Error('Event start date is required');
+        }
+
+        if (!event.eventDateEnd) {
+            event.eventDateEnd = event.eventDateStart;
+        }
+
+        if (event.eventDateEnd < event.eventDateStart) {
+            throw new Error('Event end date must be after start date');
+        }
+
+        if (event.repeatPattern) {
+            if (!EVENT_PATTERNS.includes(event.repeatPattern)) {
+                throw new Error(
+                    `Invalid event repeat pattern. Found "${
+                        event.repeatPattern
+                    }", expected one of ${EVENT_PATTERNS.join(', ')}`,
+                );
+            }
+        } else {
+            event.repeatPattern = 'none';
+        }
+
+        return true;
     }
 }

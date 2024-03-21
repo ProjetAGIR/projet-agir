@@ -1,0 +1,8 @@
+<app-layout headerType="transparent">
+    <app-layout-action layout-action-left icon="fas fa-chevron-left" link="/events"></app-layout-action>
+    <span layout-title>Modifier mon événement</span>
+
+    <main>
+        <app-event-form *ngIf="event$ | async; let event" [initialValue]="event" submitText="Modifier l'événement" (submit)="handleSubmit($event)"></app-event-form>
+    </main>
+</app-layout>

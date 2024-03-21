@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { EventCreation } from 'common/models/events';
 import { BehaviorSubject } from 'rxjs';
@@ -8,7 +8,8 @@ import { BehaviorSubject } from 'rxjs';
     templateUrl: './event-form.component.html',
     styleUrls: ['./event-form.component.scss'],
 })
-export class EventFormComponent {
+export class EventFormComponent implements OnInit {
+    @Input() submitText!: string;
     @Input() initialValue: Partial<EventCreation> = {};
     @Output() submit = new EventEmitter<Omit<EventCreation, 'userId'>>();
 
@@ -38,7 +39,9 @@ export class EventFormComponent {
             Validators.minLength(3),
             Validators.maxLength(255),
         ]),
-        eventDateStart: new FormControl('', [Validators.required]),
+        eventDateStart: new FormControl<Date | null>(null, [
+            Validators.required,
+        ]),
         eventHourStart: new FormControl<number>(0, [
             Validators.required,
             Validators.min(0),
@@ -49,7 +52,7 @@ export class EventFormComponent {
             Validators.min(0),
             Validators.max(59),
         ]),
-        eventDateEnd: new FormControl('', []),
+        eventDateEnd: new FormControl<Date | null>(null, []),
         eventHourEnd: new FormControl<number>(0, [
             Validators.min(0),
             Validators.max(23),
@@ -65,6 +68,24 @@ export class EventFormComponent {
         this.picture.subscribe((picture) => {
             this.newEventForm.patchValue({ eventPicture: picture });
         });
+    }
+
+    ngOnInit(): void {
+        this.newEventForm.setValue({
+            eventName: this.initialValue.eventName ?? '',
+            eventDescription: this.initialValue.eventDescription ?? '',
+            eventLocation: this.initialValue.eventLocation ?? '',
+            eventCategory: this.initialValue.eventCategory ?? '',
+            eventPicture: this.initialValue.eventPicture ?? '',
+            eventDateStart: this.initialValue.eventDateStart ?? null,
+            eventHourStart: this.initialValue.eventDateStart?.getHours() ?? 0,
+            eventMinuteStart:
+                this.initialValue.eventDateStart?.getMinutes() ?? 0,
+            eventDateEnd: this.initialValue.eventDateEnd ?? null,
+            eventHourEnd: this.initialValue.eventDateEnd?.getHours() ?? 0,
+            eventMinuteEnd: this.initialValue.eventDateEnd?.getMinutes() ?? 0,
+        });
+        this.picture.next(this.initialValue.eventPicture);
     }
 
     handleSubmit() {

@@ -3,6 +3,7 @@ import { Route, RouterModule, Routes } from '@angular/router';
 import { LoginPageComponent } from './authentication/pages/login-page/login-page.component';
 import {
     CREATE_EVENT_ROUTE,
+    EDIT_EVENT_ROUTE,
     EVENTS_ROUTE,
     EVENT_ROUTE,
     LOGIN_ROUTE,
@@ -31,6 +32,7 @@ import { MatchedUserProfilePageComponent } from './matching/pages/matched-user-p
 import { EventsPageComponent } from './events/pages/events-page/events-page.component';
 import { EventPageComponent } from './events/pages/event-page/event-page.component';
 import { CreateEventPageComponent } from './events/pages/create-event-page/create-event-page.component';
+import { EditEventPageComponent } from './events/pages/edit-event-page/edit-event-page.component';
 
 const privateRoute: Route = {
     // canActivate: [privateRouteGuard],
@@ -49,6 +51,11 @@ const routes: Routes = [
     {
         path: CREATE_EVENT_ROUTE,
         component: CreateEventPageComponent,
+        ...privateRoute,
+    },
+    {
+        path: EDIT_EVENT_ROUTE,
+        component: EditEventPageComponent,
         ...privateRoute,
     },
     {
