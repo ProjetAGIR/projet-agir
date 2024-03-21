@@ -61,18 +61,22 @@ export class MatchingService {
             liked,
         });
 
-        if (
-            liked &&
-            (await this.swipes
+        // Check if the target user has the "Automatically connect" feature enabled
+        const autoConnectEnabled = (await this.userProfileService.getUserProfile(targetUserId)).automaticallyConnect;
+
+        if (liked) {
+            const hasMutualLike = await this.swipes
                 .select()
                 .where({
                     activeUserId: targetUserId,
                     targetUserId: activeUserId,
                     liked: true,
                 })
-                .first())
-        ) {
-            await this.matchUsers(activeUserId, targetUserId);
+                .first();
+
+            if (hasMutualLike || autoConnectEnabled) {
+                await this.matchUsers(activeUserId, targetUserId);
+            }
         }
     }
 
