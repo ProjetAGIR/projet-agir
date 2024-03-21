@@ -23,8 +23,7 @@ COPY packages/api/package*.json /usr/src/app/
 EXPOSE 3000
 ENV PORT 3000
 ENV NODE_ENV production
-RUN npm ci --omit=dev
-# COPY packages/common /usr/src/common
+RUN npm ci --omit=dev && npm cache clean --force
 COPY --from=common-builder /usr/src/app/dist/ /usr/src/common
 COPY --from=common-builder /usr/src/app/node_modules/ /usr/src/common/node_modules
 COPY --from=common-builder /usr/src/app/package.json /usr/src/common/package.json
