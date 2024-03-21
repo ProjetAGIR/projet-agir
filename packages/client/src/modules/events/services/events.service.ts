@@ -128,4 +128,14 @@ export class EventsService {
             }),
         );
     }
+
+    deleteEvent(eventId: number): Observable<void> {
+        return this.http.delete<void>(`/events/${eventId}`).pipe(
+            tap(() => {
+                const updatedEvents = this.upcomingEvents$.getValue();
+                delete updatedEvents[eventId];
+                this.upcomingEvents$.next(updatedEvents);
+            }),
+        );
+    }
 }

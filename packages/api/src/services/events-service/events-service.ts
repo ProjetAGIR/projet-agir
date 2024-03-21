@@ -10,6 +10,8 @@ import {
     EventResponse,
 } from 'common/models/events';
 import { DBQuery, DEFAULT_DB_QUERY } from 'common/models/db-query';
+import { HttpException } from '../../models/http-exception';
+import { StatusCodes } from 'http-status-codes';
 
 @singleton()
 export class EventsService {
@@ -183,6 +185,27 @@ export class EventsService {
         });
 
         return this.getEvent(eventId, userId) as Promise<EventExtended>;
+    }
+
+    async deleteEvent(userId: number, eventId: number): Promise<void> {
+        const event = await this.getEvent(eventId, userId);
+
+        if (!event) {
+            throw new HttpException('Event not found', StatusCodes.NOT_FOUND);
+        }
+        if (event.userId !== userId) {
+            throw new HttpException(
+                'User is not the creator of the event',
+                StatusCodes.FORBIDDEN,
+            );
+        }
+
+        await this.databaseService
+            .database('eventParticipants')
+            .where('eventId', eventId)
+            .del();
+
+        await this.events.where('eventId', eventId).del();
     }
 
     async respondToEvent(

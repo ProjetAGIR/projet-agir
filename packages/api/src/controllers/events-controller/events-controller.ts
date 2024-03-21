@@ -103,6 +103,27 @@ export class EventsController extends AbstractController {
             },
         );
 
+        router.delete(
+            '/:eventId',
+            auth,
+            validateUser,
+            async (
+                req: UserRequest<{ eventId: number }>,
+                res: Response,
+                next,
+            ) => {
+                try {
+                    await this.eventsService.deleteEvent(
+                        req.body.session.user.userId,
+                        Number(req.params.eventId),
+                    );
+                    res.sendStatus(StatusCodes.NO_CONTENT);
+                } catch (error) {
+                    next(error);
+                }
+            },
+        );
+
         router.post(
             '/:eventId/response',
             auth,

@@ -40,16 +40,15 @@ export class EditEventPageComponent {
                 const eventId = params.get('eventId');
 
                 if (userValid && eventId) {
-                    return this.eventsService.getEvent(Number(eventId)).pipe(
-                        map((event) => {
-                            if (event?.userId !== session?.user.userId) {
-                                this.router.navigate([EVENTS_ROUTE]);
-                                return undefined;
-                            }
-
-                            return event;
-                        }),
-                    );
+                    return this.eventsService
+                        .getEvent(Number(eventId))
+                        .pipe(
+                            map((event) =>
+                                event?.userId !== session?.user.userId
+                                    ? undefined
+                                    : event,
+                            ),
+                        );
                 }
 
                 return of(undefined);
@@ -77,5 +76,29 @@ export class EditEventPageComponent {
                 });
             },
         });
+    }
+
+    async handleDelete() {
+        const event = await firstValueFrom(this.event$);
+
+        if (!event) return;
+
+        if (confirm(`Supprimer "${event.eventName}" ?`)) {
+            this.eventsService.deleteEvent(event.eventId).subscribe({
+                next: () => {
+                    this.snackBar.open('Événement supprimé', 'OK', {
+                        duration: 3000,
+                    });
+                    this.router.navigate([EVENTS_ROUTE], { replaceUrl: true });
+                },
+                error: (err) => {
+                    // eslint-disable-next-line no-console
+                    console.error(err);
+                    this.snackBar.open('Un erreur est survenu', 'OK', {
+                        duration: 3000,
+                    });
+                },
+            });
+        }
     }
 }

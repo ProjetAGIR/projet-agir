@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { EventsService } from '../../services/events.service';
 import { ValidationService } from 'src/modules/validation/services/validation.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, catchError, combineLatest, of, switchMap } from 'rxjs';
 import { EventExtended, EventResponse } from 'common/models/events';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -20,6 +20,7 @@ export class EventPageComponent {
         private readonly validationService: ValidationService,
         private readonly activeRoute: ActivatedRoute,
         private readonly snackBar: MatSnackBar,
+        private readonly router: Router,
     ) {
         this.event$ = combineLatest([
             this.validationService.userValid,
