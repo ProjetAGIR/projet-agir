@@ -11,11 +11,10 @@ import {
     DRINKING_HABITS,
     DRUGS_HABITS,
     INTERESTS,
-    PROGRAMS_ARRAY,
     SMOKING_HABITS,
     ZODIAC_SIGNS,
 } from '../../constants/user-profile';
-
+import { PROGRAMS_ARRAY } from 'common';
 @singleton()
 export class UserProfileService {
     constructor(

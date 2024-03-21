@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Router } from '@angular/router';
+import { NotificationService } from 'src/services/notification-service/notification.service';
 
 @Component({
     selector: 'app-button',
@@ -23,7 +24,10 @@ export class ButtonComponent {
     @Input() replaceUrl: boolean = false;
     @Output() btnClick: EventEmitter<Event> = new EventEmitter<Event>();
 
-    constructor(private readonly router: Router) {}
+    constructor(
+        private readonly router: Router,
+        private readonly notificationService: NotificationService,
+    ) {}
 
     onClick(event: Event) {
         if (this.disabled) return;

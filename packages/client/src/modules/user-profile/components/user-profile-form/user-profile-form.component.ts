@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import {
-    PROGRAMS_ARRAY,
     ZODIAC_SIGNS,
     DRINKING_HABITS,
     DRUGS_HABITS,
@@ -10,6 +9,7 @@ import {
     INTERESTS,
     ASSOCIATIONS,
 } from '../../constants';
+import { PROGRAMS_ARRAY } from 'common';
 import { UserProfileService } from '../../services/user-profile-service/user-profile.service';
 import { UserProfile } from 'common/models/user';
 import { BehaviorSubject, catchError, combineLatest, debounceTime } from 'rxjs';

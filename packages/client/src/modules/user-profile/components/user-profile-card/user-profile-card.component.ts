@@ -10,11 +10,11 @@ import {
 import { PublicUserResult, UserProfile } from 'common/models/user';
 import {
     ZODIAC_SIGNS,
-    PROGRAMS,
     WORKOUT_HABITS,
     DRINKING_HABITS,
     SMOKING_HABITS,
 } from '../../constants';
+import { PROGRAMS } from 'common';
 import { ModerationService } from 'src/modules/moderation/services/moderation.service';
 
 @Component({
