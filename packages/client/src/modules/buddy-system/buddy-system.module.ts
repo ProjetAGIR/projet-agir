@@ -5,6 +5,8 @@ import { UiModule } from '../ui/ui.module';
 import { BuddySystemEventCardComponent } from './components/buddy-system-event-card/buddy-system-event-card.component';
 import { BuddySystemEventPageComponent } from './pages/buddy-system-event-page/buddy-system-event-page.component';
 import { AppRoutingModule } from '../app-routing.module';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
     declarations: [
@@ -12,6 +14,12 @@ import { AppRoutingModule } from '../app-routing.module';
         BuddySystemEventCardComponent,
         BuddySystemEventPageComponent,
     ],
-    imports: [CommonModule, UiModule, AppRoutingModule],
+    imports: [
+        CommonModule,
+        UiModule,
+        AppRoutingModule,
+        MatSlideToggleModule,
+        MatSnackBarModule,
+    ],
 })
 export class BuddySystemModule {}

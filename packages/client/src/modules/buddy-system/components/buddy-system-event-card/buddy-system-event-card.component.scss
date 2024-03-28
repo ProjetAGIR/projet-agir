@@ -15,6 +15,7 @@ $small-breakpoint: 500px;
     overflow: hidden;
     padding: 12px;
     gap: 12px;
+    cursor: pointer;
 
     &__title,
     &__date,
@@ -36,10 +37,6 @@ $small-breakpoint: 500px;
         opacity: 0.55;
     }
 
-    &__link {
-        cursor: pointer;
-    }
-
     &__actions {
         display: flex;
         gap: 6px;
@@ -47,14 +44,7 @@ $small-breakpoint: 500px;
         justify-content: stretch;
 
         &__btn {
-            ::ng-deep {
-                .btn {
-                    height: 100%;
-                }
-            }
-            &--main {
-                flex-grow: 1;
-            }
+            flex-grow: 1;
         }
     }
 

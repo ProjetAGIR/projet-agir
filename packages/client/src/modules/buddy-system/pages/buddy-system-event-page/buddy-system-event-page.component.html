@@ -2,11 +2,83 @@
     <app-layout-action layout-action-left icon="fas fa-chevron-left" [link]="'/buddy-system'"></app-layout-action>
     <span layout-title>Système de parrainage</span>
     
-    <ng-container *ngIf="event | async; let event">
-        <h1>{{event.name}}</h1>
-
-        <app-card>
-            {{event.description}}
+    <main *ngIf="event | async; let event">
+        <app-card title="Événement" icon="fas fa-calendar">
+            <h1>{{event.name}}</h1>
+            <p class="date">{{getFormattedDate(event.eventDate)}}</p>
+            <p>{{event.description}}</p>
         </app-card>
-    </ng-container>
+
+        <app-card title="Participation" icon="fas fa-handshake">
+            <ng-container *ngIf="isCompleted() | async">
+                <p>Cet événement de parrainage est terminé.</p>
+                <ng-container *ngIf="eventFull | async; let eventFull">
+                    <p *ngIf="eventFull.participation">Vous avez participé en tant que <b *ngIf="eventFull.participation?.isNewStudent">nouveau</b><b *ngIf="!eventFull.participation?.isNewStudent">parrain</b>.</p>
+                </ng-container>
+            </ng-container>
+            
+            <ng-container *ngIf="!(isCompleted() | async)">
+                <ng-container *ngIf="event.isParticipating">
+                    <ng-container *ngIf="eventFull | async; let eventFull">
+                        <p>Vous participez à cet événement en tant que <b *ngIf="eventFull.participation?.isNewStudent">nouveau</b><b *ngIf="!eventFull.participation?.isNewStudent">parrain</b> !</p>
+
+                        <p>Lorsque l'événement sera complété, vous serez assigné un(e) <span *ngIf="eventFull.participation?.isNewStudent">parrain/marraine</span><span *ngIf="!eventFull.participation?.isNewStudent">nouveau</span>.</p>
+
+                        <p *ngIf="!eventFull.participation?.isNewStudent">Selon le niveau de participation, il est possible que vous soyez assigné plusieurs nouveaux.</p>
+                    </ng-container>
+                    <ng-container *ngIf="!(eventFull | async)">
+                        <p>Vous participez à cet événement !</p>
+                    </ng-container>
+                    <app-button 
+                        interactable="small"
+                        (btnClick)="cancelParticipate(event.buddySystemEventId)"
+                    >Annuler la participation</app-button>
+                </ng-container>
+                <ng-container *ngIf="!event.isParticipating">
+                    <p>Rejoingnez cet événement ! C'est l'occasion de faire de nouvelles rencontres à l'INSA.</p>
+                    <br>
+                    <p class="toggle-container">
+                        <span
+                            class="toggle-value toggle-value--false"
+                            [ngClass]="{'toggle-value--selected': !isNewStudentField.value}"
+                            (click)="isNewStudentField.setValue(false)"
+                        >Parrain/Marraine</span>
+                        <mat-slide-toggle
+                            [checked]="isNewStudentField.value"
+                            (change)="isNewStudentField.setValue($event.checked)"
+                        ></mat-slide-toggle>
+                        <span
+                            class="toggle-value toggle-value--true"
+                            [ngClass]="{'toggle-value--selected': isNewStudentField.value}"
+                            (click)="isNewStudentField.setValue(true)"
+                        >Nouveau</span>
+                    </p>
+                    <app-button 
+                        interactable="small"
+                        color="primary"
+                        (btnClick)="participate(event.buddySystemEventId, isNewStudentField.value ?? false)"
+                    ><span>Rejoindre en tant que <span *ngIf="isNewStudentField.value">nouveau</span><span *ngIf="!isNewStudentField.value">parrain/marraine</span></span></app-button>
+                </ng-container>
+            </ng-container>
+        </app-card>
+
+        <ng-container *ngIf="eventFull | async; let eventFull">
+            <ng-container *ngIf="eventFull.matches.length">
+                <app-card title="Mes connexions">
+                    <div *ngFor="let match of eventFull.matches" class="match" [routerLink]="'/matches/' + match.userId">
+                        <app-image
+                            [publicID]="match.picture"
+                            [size]="{ height: 125, ratio: 3/4 }"
+                            [alt]="match.name"
+                        ></app-image>
+                        <div class="match__info">
+                            <h3>{{match.name}}</h3>
+                            <p>{{match.bio}}</p>
+                            <app-button interactable="small">Envoyer un message</app-button>
+                        </div>
+                    </div>
+                </app-card>
+            </ng-container>
+        </ng-container>
+    </main>
 </app-layout>

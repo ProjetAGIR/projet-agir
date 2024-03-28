@@ -6,12 +6,14 @@ import {
     combineLatest,
     map,
     switchMap,
+    tap,
 } from 'rxjs';
 import { SessionService } from 'src/modules/authentication/services/session-service/session.service';
 import { ValidationService } from 'src/modules/validation/services/validation.service';
 import {
     BuddySystemEvent,
     BuddySystemEventExtended,
+    BuddySystemEventFull,
 } from 'common/models/buddy-system';
 
 @Injectable({
@@ -86,6 +88,63 @@ export class BuddySystemService {
                 }
             }),
         );
+    }
+
+    fetchFullBuddySystemEvent(
+        eventId: number,
+    ): Observable<BuddySystemEventFull> {
+        return this.http.get<BuddySystemEventFull>(`/buddy-system/${eventId}`);
+    }
+
+    participateInBuddySystemEvent(
+        eventId: number,
+        isNewStudent: boolean,
+    ): Observable<void> {
+        const events = this.buddySystemEvents$.value;
+        events[eventId].isParticipating = true;
+        this.buddySystemEvents$.next(events);
+
+        return this.http
+            .post<void>(`/buddy-system/participate/${eventId}`, {
+                isNewStudent,
+            })
+            .pipe(
+                tap({
+                    next: () => {
+                        const events = this.buddySystemEvents$.value;
+                        events[eventId].isParticipating = true;
+                        this.buddySystemEvents$.next(events);
+                    },
+                    error: () => {
+                        const events = this.buddySystemEvents$.value;
+                        events[eventId].isParticipating = false;
+                        this.buddySystemEvents$.next(events);
+                    },
+                }),
+            );
+    }
+
+    cancelParticipationInBuddySystemEvent(eventId: number): Observable<void> {
+        const events = this.buddySystemEvents$.value;
+        events[eventId].isParticipating = false;
+        this.buddySystemEvents$.next(events);
+
+        return this.http
+            .delete<void>(`/buddy-system/participate/${eventId}`)
+            .pipe(
+                tap({
+                    next: () => {
+                        const events = this.buddySystemEvents$.value;
+                        events[eventId].isParticipating = false;
+                        this.buddySystemEvents$.next(events);
+                    },
+                    error: () => {
+                        const events = this.buddySystemEvents$.value;
+                        events[eventId].isParticipating = true;
+                        this.buddySystemEvents$.next(events);
+                    },
+                }),
+            );
     }
 
     private fetchBuddySystemEvents(): Observable<BuddySystemEvent[]> {

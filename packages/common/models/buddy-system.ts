@@ -21,9 +21,21 @@ export interface BuddySystemEventMatch {
     userId2: number;
 }
 
+export interface BuddySystemEventMatchUser {
+    name: string;
+    bio: string;
+    picture: string;
+    userId: number;
+}
+
 export interface BuddySystemEventExtended extends BuddySystemEvent {
     isParticipating: boolean;
     matchesCount: number;
+}
+
+export interface BuddySystemEventFull extends BuddySystemEvent {
+    matches: BuddySystemEventMatchUser[];
+    participation?: BuddySystemEventParticipant;
 }
 
 export type BuddySystemEventParticipantExtended = BuddySystemEventParticipant & User & UserProfile

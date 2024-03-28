@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response, Router } from 'express';
+import { NextFunction, Response, Router } from 'express';
 import { AbstractController } from '../abstract-controller';
 import { StatusCodes } from 'http-status-codes';
 import { singleton } from 'tsyringe';
@@ -37,7 +37,7 @@ export class BuddySystemController extends AbstractController {
             auth,
             validateUser,
             async (
-                req: Request<{ buddySystemEventId: string }>,
+                req: UserRequest<{ buddySystemEventId: string }>,
                 res: Response,
                 next: NextFunction,
             ) => {
@@ -45,6 +45,7 @@ export class BuddySystemController extends AbstractController {
                     res.status(StatusCodes.OK).json(
                         await this.buddySystemService.getBuddySystemEvent(
                             parseInt(req.params.buddySystemEventId, 10),
+                            req.body.session.user.userId,
                         ),
                     );
                 } catch (e) {
@@ -58,7 +59,7 @@ export class BuddySystemController extends AbstractController {
             auth,
             validateUser,
             async (
-                req: Request<object, BuddySystemEventCreation>,
+                req: UserRequest<object, BuddySystemEventCreation>,
                 res: Response,
                 next: NextFunction,
             ) => {
@@ -66,8 +67,61 @@ export class BuddySystemController extends AbstractController {
                     res.status(StatusCodes.CREATED).json(
                         await this.buddySystemService.createBuddySystemEvent(
                             req.body,
+                            req.body.session.user.userId,
                         ),
                     );
+                } catch (e) {
+                    next(e);
+                }
+            },
+        );
+
+        router.post(
+            '/participate/:buddySystemEventId',
+            auth,
+            validateUser,
+            async (
+                req: UserRequest<
+                    { buddySystemEventId: string },
+                    { isNewStudent: boolean }
+                >,
+                res: Response,
+                next: NextFunction,
+            ) => {
+                try {
+                    res.status(StatusCodes.CREATED).json(
+                        await this.buddySystemService.participateInBuddySystemEvent(
+                            {
+                                buddySystemEventId: parseInt(
+                                    req.params.buddySystemEventId,
+                                    10,
+                                ),
+                                userId: req.body.session.user.userId,
+                                isNewStudent: req.body.isNewStudent,
+                            },
+                        ),
+                    );
+                } catch (e) {
+                    next(e);
+                }
+            },
+        );
+
+        router.delete(
+            '/participate/:buddySystemEventId',
+            auth,
+            validateUser,
+            async (
+                req: UserRequest<{ buddySystemEventId: string }>,
+                res: Response,
+                next: NextFunction,
+            ) => {
+                try {
+                    await this.buddySystemService.removeParticipationInBuddySystemEvent(
+                        parseInt(req.params.buddySystemEventId, 10),
+                        req.body.session.user.userId,
+                    );
+                    res.sendStatus(StatusCodes.NO_CONTENT);
                 } catch (e) {
                     next(e);
                 }

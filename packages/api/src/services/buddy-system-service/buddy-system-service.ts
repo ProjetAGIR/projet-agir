@@ -5,7 +5,9 @@ import {
     BuddySystemEvent,
     BuddySystemEventCreation,
     BuddySystemEventExtended,
+    BuddySystemEventFull,
     BuddySystemEventMatch,
+    BuddySystemEventMatchUser,
     BuddySystemEventParticipant,
     BuddySystemEventParticipantCreation,
     BuddySystemEventParticipantExtended,
@@ -39,13 +41,49 @@ export class BuddySystemService {
 
     async getBuddySystemEvent(
         buddySystemEventId: number,
-    ): Promise<BuddySystemEvent | undefined> {
+        userId: TypeOfId<User>,
+    ): Promise<BuddySystemEventFull> {
+        const db = this.databaseService.database;
         const [event] = await this.buddySystemEvent
             .select(['*'])
             .where('buddySystemEventId', buddySystemEventId)
             .orderBy('eventDate', 'desc');
 
-        return event;
+        if (!event) {
+            throw new HttpException(
+                `No buddy system event with ID ${buddySystemEventId}`,
+                StatusCodes.NOT_FOUND,
+            );
+        }
+
+        const [participation] = await this.buddySystemEventParticipant
+            .select(['*'])
+            .where('buddySystemEventId', buddySystemEventId)
+            .andWhere('userId', db.raw('?', [userId]));
+
+        const matches: BuddySystemEventMatchUser[] =
+            await this.buddySystemEventMatch
+                .select([
+                    'userProfiles.name',
+                    'userProfiles.bio',
+                    db.raw('userProfiles.picture1 as picture'),
+                    'userProfiles.userId',
+                ])
+                .innerJoin(
+                    'userProfiles',
+                    'buddySystemEventMatch.userId1',
+                    'userProfiles.userId',
+                )
+                .where('buddySystemEventId', buddySystemEventId)
+                .andWhere(function () {
+                    this.where('userId1', db.raw('?', [userId])).orWhere(
+                        'userId2',
+                        db.raw('?', [userId]),
+                    );
+                })
+                .andWhere('userProfiles.userId', '!=', db.raw('?', [userId]));
+
+        return { ...event, participation, matches };
     }
 
     async getBuddySystemEvents(
@@ -90,6 +128,7 @@ export class BuddySystemService {
 
     async createBuddySystemEvent(
         event: BuddySystemEventCreation,
+        userId: TypeOfId<User>,
     ): Promise<BuddySystemEvent> {
         const creationEvent: BuddySystemEventCreation = {
             eventDate: new Date(event.eventDate),
@@ -108,9 +147,7 @@ export class BuddySystemService {
             creationEvent,
         );
 
-        return this.getBuddySystemEvent(
-            buddySystemEventId,
-        ) as Promise<BuddySystemEvent>;
+        return this.getBuddySystemEvent(buddySystemEventId, userId);
     }
 
     async participateInBuddySystemEvent(
@@ -125,6 +162,18 @@ export class BuddySystemService {
             .returning('*');
 
         return participant;
+    }
+
+    async removeParticipationInBuddySystemEvent(
+        buddySystemEventId: number,
+        userId: TypeOfId<User>,
+    ): Promise<void> {
+        await this.buddySystemEventParticipant
+            .where({
+                buddySystemEventId,
+                userId,
+            })
+            .delete();
     }
 
     async getBuddySystemEventParticipants(

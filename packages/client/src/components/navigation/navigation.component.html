@@ -12,7 +12,7 @@
         </div>
 
         <div class="navigation__top__menu">
-            <li *ngFor="let item of (navigation | async)" class="navigation__top__menu__item">
+            <li *ngFor="let item of (navigation | async)" class="navigation__top__menu__item" [ngClass]="{'desktop-only': item.desktopOnly}">
                 <app-button
                     [link]="isActiveLink(item.href) ? undefined : item.href"
                     [color]="isActiveLink(item.href) ? 'primary' : 'transparent'"
