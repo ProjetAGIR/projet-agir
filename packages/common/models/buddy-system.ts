@@ -21,6 +21,11 @@ export interface BuddySystemEventMatch {
     userId2: number;
 }
 
+export interface BuddySystemEventExtended extends BuddySystemEvent {
+    isParticipating: boolean;
+    matchesCount: number;
+}
+
 export type BuddySystemEventParticipantExtended = BuddySystemEventParticipant & User & UserProfile
 
 export type BuddySystemEventCreation = Omit<BuddySystemEvent, 'buddySystemEventId' | 'createdAt'>;

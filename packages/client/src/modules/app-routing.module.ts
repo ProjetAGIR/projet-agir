@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { Route, RouterModule, Routes } from '@angular/router';
 import { LoginPageComponent } from './authentication/pages/login-page/login-page.component';
 import {
+    BUDDY_SYSTEM_EVENTS_ROUTE,
+    BUDDY_SYSTEM_EVENT_ROUTE,
     CREATE_EVENT_ROUTE,
     EDIT_EVENT_ROUTE,
     EVENTS_ROUTE,
@@ -33,6 +35,8 @@ import { EventsPageComponent } from './events/pages/events-page/events-page.comp
 import { EventPageComponent } from './events/pages/event-page/event-page.component';
 import { CreateEventPageComponent } from './events/pages/create-event-page/create-event-page.component';
 import { EditEventPageComponent } from './events/pages/edit-event-page/edit-event-page.component';
+import { BuddySystemEventsPageComponent } from './buddy-system/pages/buddy-system-events-page/buddy-system-events-page.component';
+import { BuddySystemEventPageComponent } from './buddy-system/pages/buddy-system-event-page/buddy-system-event-page.component';
 
 const privateRoute: Route = {
     // canActivate: [privateRouteGuard],
@@ -57,6 +61,14 @@ const routes: Routes = [
         path: EDIT_EVENT_ROUTE,
         component: EditEventPageComponent,
         ...privateRoute,
+    },
+    {
+        path: BUDDY_SYSTEM_EVENTS_ROUTE,
+        component: BuddySystemEventsPageComponent,
+    },
+    {
+        path: BUDDY_SYSTEM_EVENT_ROUTE,
+        component: BuddySystemEventPageComponent,
     },
     {
         path: PROFILE_ROUTE,

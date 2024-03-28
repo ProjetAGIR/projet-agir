@@ -1,0 +1,12 @@
+<app-layout headerType="transparent">
+    <app-layout-action layout-action-left icon="fas fa-chevron-left" [link]="'/buddy-system'"></app-layout-action>
+    <span layout-title>Système de parrainage</span>
+    
+    <ng-container *ngIf="event | async; let event">
+        <h1>{{event.name}}</h1>
+
+        <app-card>
+            {{event.description}}
+        </app-card>
+    </ng-container>
+</app-layout>

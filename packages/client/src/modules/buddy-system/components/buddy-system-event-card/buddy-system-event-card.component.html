@@ -1,0 +1,40 @@
+<div class="buddy-system-event-card">
+    <div class="buddy-system-event-card__link" [routerLink]="'/buddy-system/' + event.buddySystemEventId">
+        <h3 class="buddy-system-event-card__title">{{event.name}}</h3>
+        <h4 class="buddy-system-event-card__date">{{getFormattedDate(event.eventDate)}}</h4>
+        <p class="buddy-system-event-card__description">{{getDescription()}}</p>
+    </div>
+
+    <div class="buddy-system-event-card__actions">
+        <app-button 
+            interactable="small"
+            class="buddy-system-event-card__actions__btn buddy-system-event-card__actions__btn--main"
+            *ngIf="!isCompleted() && !event.isParticipating"
+            icon="fas fa-plus"
+        >Y participer</app-button>
+        <app-button 
+            interactable="small"
+            class="buddy-system-event-card__actions__btn buddy-system-event-card__actions__btn--main"
+            color="primary"
+            *ngIf="!isCompleted() && event.isParticipating"
+            icon="fas fa-check"
+        >J'y participe</app-button>
+
+        <app-button 
+            interactable="small"
+            class="buddy-system-event-card__actions__btn buddy-system-event-card__actions__btn--main"
+            color="primary"
+            *ngIf="isCompleted() && event.isParticipating"
+            icon="fas fa-poll-people"
+            [routerLink]="'/buddy-system/' + event.buddySystemEventId"
+        >Voir les résultats</app-button>
+        <app-button
+            *ngIf="!(isCompleted() && event.isParticipating)"
+            interactable="small"
+            class="buddy-system-event-card__actions__btn"
+            [ngClass]="{'buddy-system-event-card__actions__btn--main': isCompleted()}"
+            icon="fas fa-info"
+            [routerLink]="'/buddy-system/' + event.buddySystemEventId"
+        ></app-button>
+    </div>
+</div>

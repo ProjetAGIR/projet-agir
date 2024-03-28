@@ -4,6 +4,7 @@ import { Knex } from 'knex';
 import {
     BuddySystemEvent,
     BuddySystemEventCreation,
+    BuddySystemEventExtended,
     BuddySystemEventMatch,
     BuddySystemEventParticipant,
     BuddySystemEventParticipantCreation,
@@ -11,6 +12,8 @@ import {
 } from 'common/models/buddy-system';
 import { HttpException } from '../../models/http-exception';
 import { StatusCodes } from 'http-status-codes';
+import { TypeOfId } from 'common/types/id';
+import { User } from 'common/models/user';
 
 @singleton()
 export class BuddySystemService {
@@ -45,8 +48,44 @@ export class BuddySystemService {
         return event;
     }
 
-    async getBuddySystemEvents(): Promise<BuddySystemEvent[]> {
-        return this.buddySystemEvent.select(['*']).orderBy('eventDate', 'desc');
+    async getBuddySystemEvents(
+        userId: TypeOfId<User>,
+    ): Promise<BuddySystemEventExtended[]> {
+        const db = this.databaseService.database;
+
+        return this.buddySystemEvent
+            .select([
+                'buddySystemEvent.*',
+                db.raw(
+                    'count(buddySystemEventParticipant.userId) as isParticipating',
+                ),
+                db.raw('count(buddySystemEventMatch.userId1) as matchesCount'),
+            ])
+            .leftJoin('buddySystemEventParticipant', function () {
+                this.on(
+                    'buddySystemEvent.buddySystemEventId',
+                    'buddySystemEventParticipant.buddySystemEventId',
+                ).andOn(
+                    'buddySystemEventParticipant.userId',
+                    db.raw('?', [userId]),
+                );
+            })
+            .leftJoin('buddySystemEventMatch', function () {
+                this.on(
+                    'buddySystemEvent.buddySystemEventId',
+                    'buddySystemEventMatch.buddySystemEventId',
+                ).andOn(function () {
+                    this.on(
+                        'buddySystemEventMatch.userId1',
+                        db.raw('?', [userId]),
+                    ).orOn(
+                        'buddySystemEventMatch.userId2',
+                        db.raw('?', [userId]),
+                    );
+                });
+            })
+            .groupBy('buddySystemEvent.buddySystemEventId')
+            .orderBy('eventDate', 'desc');
     }
 
     async createBuddySystemEvent(

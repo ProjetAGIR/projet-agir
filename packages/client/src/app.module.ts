@@ -21,6 +21,7 @@ import { UiModule } from './modules/ui/ui.module';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { EventsModule } from './modules/events/events.module';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
+import { BuddySystemModule } from './modules/buddy-system/buddy-system.module';
 
 @NgModule({
     declarations: [AppComponent, NavigationComponent, StatusPageComponent],
@@ -37,6 +38,7 @@ import { MAT_DATE_LOCALE } from '@angular/material/core';
         UserModule,
         UiModule,
         EventsModule,
+        BuddySystemModule,
         ServiceWorkerModule.register('ngsw-worker.js', {
             // When testing notifications in dev mode, uncomment the line below
             // enables: true,

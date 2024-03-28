@@ -2,13 +2,18 @@
     <span layout-title>Événements</span>
     <app-layout-action layout-action-right icon="fas fa-calendar-plus" [link]="'/create-event'"></app-layout-action>
 
+    <app-card class="main" title="Système de parrainage" icon="fas fa-user-friends">
+        <p>L'INSA organise des événements de parrainage afin de connecter les étudiants nouvellement arrivé. Visitez la page afin d'y participer en tant que nouveau ou en tant que parrain!</p>
+        <app-button interactable="small" routerLink="/buddy-system">Visiter la page de parrainage</app-button>
+    </app-card>
+
     <ng-container *ngIf="upcomingEvents | async; let upcomingEvents">
         <p *ngIf="(loaded | async) && upcomingEvents.length === 0" class="no-event-message">
             Aucun événement à venir.
         </p>
     </ng-container>
 
-    <main *ngIf="upcomingEvents | async; let upcomingEvents">
+    <main class="main" *ngIf="upcomingEvents | async; let upcomingEvents">
         <div class="events-container">
             <app-event-card *ngFor="let event of upcomingEvents" [event]="event"></app-event-card>
         </div>

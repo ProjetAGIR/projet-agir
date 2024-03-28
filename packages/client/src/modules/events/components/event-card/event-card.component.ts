@@ -25,6 +25,13 @@ export class EventCardComponent {
     ) {}
 
     getFormattedDate() {
+        if (
+            this.event.eventDateStart <= new Date() &&
+            this.event.eventDateEnd >= new Date()
+        ) {
+            return 'En cours';
+        }
+
         return toRelativeDateString(new Date(this.event.eventDateStart));
     }
 
