@@ -6,6 +6,7 @@ import {
     DRUGS_HABITS,
     SMOKING_HABITS,
     WORKOUT_HABITS,
+    USER_TYPE,
     INTERESTS,
     ASSOCIATIONS,
 } from '../../constants';
@@ -72,6 +73,9 @@ export class UserProfileFormComponent {
                 (item, value) => item.id === value,
             ),
         ]),
+        usertype: new FormControl('', [
+            containedInValidator(USER_TYPE, (item, value) => item.id === value),
+        ]),
         smoking: new FormControl('', [
             containedInValidator(
                 SMOKING_HABITS,
@@ -98,6 +102,7 @@ export class UserProfileFormComponent {
     programs = PROGRAMS_ARRAY;
     zodiacSigns = ZODIAC_SIGNS;
     drinkingHabits = DRINKING_HABITS;
+    usertype = USER_TYPE;
     smokingHabits = SMOKING_HABITS;
     drugHabits = DRUGS_HABITS;
     workoutHabits = WORKOUT_HABITS;

@@ -2,6 +2,7 @@ export { ASSOCIATIONS } from './associations';
 export { INTERESTS } from './interests';
 export {
     DRINKING_HABITS,
+    USER_TYPE,
     SMOKING_HABITS,
     DRUGS_HABITS,
     WORKOUT_HABITS,

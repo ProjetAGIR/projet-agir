@@ -13,6 +13,7 @@ import {
     WORKOUT_HABITS,
     DRINKING_HABITS,
     SMOKING_HABITS,
+    USER_TYPE,
 } from '../../constants';
 import { PROGRAMS } from 'common';
 import { ModerationService } from 'src/modules/moderation/services/moderation.service';
@@ -168,6 +169,12 @@ export class UserProfileCardComponent {
         );
     }
 
+    get usertype() {
+        return USER_TYPE.find(
+            (usertype) => usertype.id === this.userProfile?.usertype,
+        );
+    }
+
     get smoking() {
         return SMOKING_HABITS.find(
             (smoking) => smoking.id === this.userProfile?.smoking,
@@ -187,6 +194,7 @@ export class UserProfileCardComponent {
             this.userProfile?.zodiacSign ||
             this.userProfile?.workout ||
             this.userProfile?.drinking ||
+            this.userProfile?.usertype ||
             this.userProfile?.smoking ||
             this.userProfile?.drugs
         );

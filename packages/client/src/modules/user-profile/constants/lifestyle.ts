@@ -59,6 +59,17 @@ export const DRUGS_HABITS = [
     },
 ];
 
+export const USER_TYPE = [
+    {
+        id: 'student',
+        name: 'je suis un étudiant',
+    },
+    {
+        id: 'association',
+        name: 'je suis une association',
+    },
+];
+
 export const WORKOUT_HABITS = [
     {
         id: 'never',

@@ -23,6 +23,7 @@ export interface UserProfile {
     zodiacSign?: string;
     drinking?: string;
     smoking?: string;
+    usertype?:string;
     drugs?: string;
     workout?: string;
     jobTitle?: string;
