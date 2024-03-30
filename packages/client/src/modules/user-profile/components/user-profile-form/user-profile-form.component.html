@@ -50,7 +50,7 @@
         <mat-form-field>
             <mat-label><i class="fas fa-usertype"></i> Type d'utilisateur</mat-label>
             <mat-select formControlName="usertype">
-                <mat-option value="">étudiant ou association ?</mat-option>
+                <mat-option value="">Non spécifié</mat-option>
                 <mat-option *ngFor="let user of usertype" [value]="user.id">{{ user.name }}</mat-option>
             </mat-select>
             <mat-error *ngIf="userProfileForm.controls.usertype.getError('notContainedIn')">Valeur invalide</mat-error>
@@ -58,7 +58,7 @@
     </app-card>
 
     <app-card title="Mes Connexions" icon="fas fa-chart-network">
-        <mat-checkbox formControlName="automaticallyConnect">Connexion automatique</mat-checkbox>
+        <mat-checkbox formControlName="automaticallyConnect">Connexion automatique</mat-checkbox> 
         
         <p class="form--helper">Acceptez automatiquement les connexions lorsqu'un utilisateur souhaite se connecter avec vous sans avoir à demander en retour.</p>
     </app-card>
@@ -91,7 +91,7 @@
         <mat-form-field>
             <mat-label><i class="fas fa-star-shooting"></i> Signe zodiac</mat-label>
             <mat-select formControlName="zodiacSign">
-                <mat-option value="">No spécifié</mat-option>
+                <mat-option value="">Non spécifié</mat-option>
                 <mat-option *ngFor="let zodiacSign of zodiacSigns" [value]="zodiacSign.id">{{ zodiacSign.name }}</mat-option>
             </mat-select>
             <mat-error *ngIf="userProfileForm.controls.zodiacSign.getError('notContainedIn')">Valeur invalide</mat-error>
@@ -100,7 +100,7 @@
         <mat-form-field>
             <mat-label><i class="fas fa-glass-martini"></i> Alcool</mat-label>
             <mat-select formControlName="drinking">
-                <mat-option value="">No spécifié</mat-option>
+                <mat-option value="">Non spécifié</mat-option>
                 <mat-option *ngFor="let drinkingHabit of drinkingHabits" [value]="drinkingHabit.id">{{ drinkingHabit.name }}</mat-option>
             </mat-select>
             <mat-error *ngIf="userProfileForm.controls.drinking.getError('notContainedIn')">Valeur invalide</mat-error>
@@ -109,7 +109,7 @@
         <mat-form-field>
             <mat-label><i class="fas fa-smoking"></i> Cigarette</mat-label>
             <mat-select formControlName="smoking">
-                <mat-option value="">No spécifié</mat-option>
+                <mat-option value="">Non spécifié</mat-option>
                 <mat-option *ngFor="let smokingHabit of smokingHabits" [value]="smokingHabit.id">{{ smokingHabit.name }}</mat-option>
             </mat-select>
             <mat-error *ngIf="userProfileForm.controls.smoking.getError('notContainedIn')">Valeur invalide</mat-error>
@@ -118,7 +118,7 @@
         <mat-form-field>
             <mat-label><i class="fas fa-cannabis"></i> Drogues</mat-label>
             <mat-select formControlName="drugs">
-                <mat-option value="">No spécifié</mat-option>
+                <mat-option value="">Non spécifié</mat-option>
                 <mat-option *ngFor="let drugHabit of drugHabits" [value]="drugHabit.id">{{ drugHabit.name }}</mat-option>
             </mat-select>
             <mat-error *ngIf="userProfileForm.controls.drugs.getError('notContainedIn')">Valeur invalide</mat-error>
@@ -127,7 +127,7 @@
         <mat-form-field>
             <mat-label><i class="fas fa-dumbbell"></i> Sports</mat-label>
             <mat-select formControlName="workout">
-                <mat-option value="">No spécifié</mat-option>
+                <mat-option value="">Non spécifié</mat-option>
                 <mat-option *ngFor="let workoutHabit of workoutHabits" [value]="workoutHabit.id">{{ workoutHabit.name }}</mat-option>
             </mat-select>
             <mat-error *ngIf="userProfileForm.controls.workout.getError('notContainedIn')">Valeur invalide</mat-error>
