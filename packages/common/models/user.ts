@@ -46,6 +46,7 @@ export interface UserProfileDB extends Omit<UserProfile, UnsafeUserProfileAttrib
     interests?: string;
     associations?: string;
     languages?: string;
+    usertype?: string;
 }
 
 export type PublicUser = Pick<User, 'email' | 'userId'>;
