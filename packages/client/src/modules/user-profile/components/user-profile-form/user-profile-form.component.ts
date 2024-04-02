@@ -73,7 +73,7 @@ export class UserProfileFormComponent {
                 (item, value) => item.id === value,
             ),
         ]),
-        usertype: new FormControl('', [
+        usertype: new FormControl('1', [
             containedInValidator(USER_TYPE, (item, value) => item.id === value),
         ]),
         smoking: new FormControl('', [
