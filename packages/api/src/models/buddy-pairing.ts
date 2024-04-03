@@ -14,6 +14,18 @@ export type BuddyPairingUser = Required<
     >
 >;
 
+export const toBuddyPairingUser = (
+    user: Partial<Omit<BuddyPairingUser, 'userId'>> &
+        Pick<BuddyPairingUser, 'userId'>,
+): BuddyPairingUser => ({
+    userId: user.userId,
+    name: user.name ?? '',
+    associations: user.associations ?? [],
+    interests: user.interests ?? [],
+    languages: user.languages ?? [],
+    program: user.program ?? Math.random().toString(), // Use math random to not associate together people with no program
+});
+
 export type BuddyPairingCompatibility = {
     [key in keyof Pick<
         BuddyPairingUser,

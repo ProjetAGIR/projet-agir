@@ -86,6 +86,10 @@ export abstract class Pairing<L, R = L> {
                 }
             }
 
+            if (max_left === -1 || max_right === -1) {
+                throw new Error('No more pairs to make');
+            }
+
             pairedLeft[max_left] = true;
             pairedRight[max_right] = true;
             leftPairs++;

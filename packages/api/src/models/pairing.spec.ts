@@ -133,4 +133,20 @@ describe('Pairing', () => {
         expect(() => pairing.avgCompatibility).toThrow();
         expect(() => pairing.stdDev).toThrow();
     });
+
+    it('should pair if only one of each', () => {
+        const pairing = new PairingTest([1], [1]);
+        const pairs = pairing.pair();
+
+        expect(pairs.length).toBe(1);
+        expect(pairs[0].left).toBe(1);
+        expect(pairs[0].right).toBe(1);
+    });
+
+    it('should work if empty arrays', () => {
+        const pairing = new PairingTest([], []);
+        const pairs = pairing.pair();
+
+        expect(pairs.length).toBe(0);
+    });
 });

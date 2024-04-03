@@ -16,9 +16,14 @@ import { HttpException } from '../../models/http-exception';
 import { StatusCodes } from 'http-status-codes';
 import { TypeOfId } from 'common/types/id';
 import { User } from 'common/models/user';
+import { CronJob } from 'cron';
+import { BuddyPairing, toBuddyPairingUser } from '../../models/buddy-pairing';
+import { logger } from '../../utils/logger';
 
 @singleton()
 export class BuddySystemService {
+    private job: CronJob | undefined = undefined;
+
     constructor(private readonly databaseService: DatabaseService) {}
 
     private get buddySystemEvent(): Knex.QueryBuilder<BuddySystemEvent> {
@@ -37,6 +42,23 @@ export class BuddySystemService {
         return this.databaseService.database<BuddySystemEventMatch>(
             'buddySystemEventMatch',
         );
+    }
+
+    instantiate() {
+        this.job = CronJob.from({
+            cronTime: '*/10 * * * * *',
+            onTick: async () => {
+                await Promise.all(
+                    (
+                        await this.getEventsToPair()
+                    ).map((event) =>
+                        this.executeEventPairing(event.buddySystemEventId),
+                    ),
+                );
+            },
+            start: true,
+            timeZone: 'Europe/Paris',
+        });
     }
 
     async getBuddySystemEvent(
@@ -179,18 +201,89 @@ export class BuddySystemService {
     async getBuddySystemEventParticipants(
         buddySystemEventId: number,
     ): Promise<BuddySystemEventParticipantExtended[]> {
-        return this.buddySystemEventParticipant
-            .select(['*'])
-            .innerJoin(
-                'user',
-                'user.userId',
-                'buddySystemEventParticipant.userId',
-            )
-            .innerJoin(
-                'userProfile',
-                'userProfile.userId',
-                'buddySystemEventParticipant.userId',
-            )
+        return (
+            await this.buddySystemEventParticipant
+                .select(['*'])
+                .innerJoin(
+                    'users',
+                    'users.userId',
+                    'buddySystemEventParticipant.userId',
+                )
+                .innerJoin(
+                    'userProfiles',
+                    'userProfiles.userId',
+                    'buddySystemEventParticipant.userId',
+                )
+                .where('buddySystemEventId', buddySystemEventId)
+        ).map((participant: BuddySystemEventParticipantExtended) => ({
+            ...participant,
+            interests:
+                (participant.interests as string | undefined)
+                    ?.split(',')
+                    .map((i) => i.trim()) ?? [],
+            associations:
+                (participant.associations as string | undefined)
+                    ?.split(',')
+                    .map((i) => i.trim()) ?? [],
+            languages:
+                (participant.languages as string | undefined)
+                    ?.split(',')
+                    .map((i) => i.trim()) ?? [],
+        }));
+    }
+
+    private async getEventsToPair(): Promise<
+        Pick<BuddySystemEvent, 'buddySystemEventId'>[]
+    > {
+        return this.buddySystemEvent
+            .select(['buddySystemEventId'])
+            .where('isCompleted', false)
+            .andWhere('eventDate', '<', new Date());
+    }
+
+    private async executeEventPairing(buddySystemEventId: number) {
+        logger.debug(`Starting pairing for event ${buddySystemEventId}`);
+
+        const participants = await this.getBuddySystemEventParticipants(
+            buddySystemEventId,
+        );
+        const [newUsers, mentors] = participants.reduce(
+            ([newUsers, mentors], participant) => {
+                if (participant.isNewStudent) {
+                    return [newUsers.concat(participant), mentors];
+                } else {
+                    return [newUsers, mentors.concat(participant)];
+                }
+            },
+            [[], []] as BuddySystemEventParticipantExtended[][],
+        );
+
+        if (newUsers.length === 0 || mentors.length === 0) {
+            logger.warn(
+                `Pairing for event ${buddySystemEventId} impossible: not enough participants (new: ${newUsers.length}, mentors: ${mentors.length})`,
+            );
+            return;
+        }
+
+        const pairing = new BuddyPairing(
+            newUsers.map(toBuddyPairingUser),
+            mentors.map(toBuddyPairingUser),
+        );
+
+        pairing.pair();
+
+        for (const pair of pairing.pairs) {
+            await this.buddySystemEventMatch.insert({
+                buddySystemEventId,
+                userId1: pair.left.userId,
+                userId2: pair.right.userId,
+            });
+        }
+
+        await this.buddySystemEvent
+            .update({ isCompleted: true })
             .where('buddySystemEventId', buddySystemEventId);
+
+        logger.debug(`Pairing for event ${buddySystemEventId} completed`);
     }
 }

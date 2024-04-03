@@ -55,6 +55,7 @@
     "bcrypt": "^5.1.1",
     "common": "file:../common",
     "cors": "^2.8.5",
+    "cron": "^3.1.6",
     "cross-env": "^7.0.3",
     "dotenv": "^16.0.3",
     "dotenv-cli": "^7.3.0",

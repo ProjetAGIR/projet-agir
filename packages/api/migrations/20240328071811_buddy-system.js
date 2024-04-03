@@ -8,6 +8,7 @@ exports.up = async function (knex) {
         table.timestamp('eventDate').notNullable();
         table.string('name').notNullable();
         table.string('description').notNullable();
+        table.boolean('isCompleted').defaultTo(false);
         table.timestamp('createdAt').defaultTo(knex.fn.now());
     });
 

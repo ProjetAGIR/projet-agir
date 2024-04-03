@@ -5,6 +5,7 @@ export interface BuddySystemEvent {
     eventDate: Date;
     name: string;
     description: string;
+    isCompleted: boolean;
     createdAt: Date;
 }
 
@@ -40,6 +41,6 @@ export interface BuddySystemEventFull extends BuddySystemEvent {
 
 export type BuddySystemEventParticipantExtended = BuddySystemEventParticipant & User & UserProfile
 
-export type BuddySystemEventCreation = Omit<BuddySystemEvent, 'buddySystemEventId' | 'createdAt'>;
+export type BuddySystemEventCreation = Omit<BuddySystemEvent, 'buddySystemEventId' | 'createdAt' | 'isCompleted'>;
 
 export type BuddySystemEventParticipantCreation = Omit<BuddySystemEventParticipant, 'createdAt'>;
