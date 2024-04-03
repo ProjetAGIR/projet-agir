@@ -19,12 +19,16 @@ import { User } from 'common/models/user';
 import { CronJob } from 'cron';
 import { BuddyPairing, toBuddyPairingUser } from '../../models/buddy-pairing';
 import { logger } from '../../utils/logger';
+import { MatchingService } from '../matching-service/matching-service';
 
 @singleton()
 export class BuddySystemService {
     private job: CronJob | undefined = undefined;
 
-    constructor(private readonly databaseService: DatabaseService) {}
+    constructor(
+        private readonly databaseService: DatabaseService,
+        private readonly matchingService: MatchingService,
+    ) {}
 
     private get buddySystemEvent(): Knex.QueryBuilder<BuddySystemEvent> {
         return this.databaseService.database<BuddySystemEvent>(
@@ -83,27 +87,35 @@ export class BuddySystemService {
             .where('buddySystemEventId', buddySystemEventId)
             .andWhere('userId', db.raw('?', [userId]));
 
-        const matches: BuddySystemEventMatchUser[] =
-            await this.buddySystemEventMatch
-                .select([
-                    'userProfiles.name',
-                    'userProfiles.bio',
-                    db.raw('userProfiles.picture1 as picture'),
-                    'userProfiles.userId',
-                ])
-                .innerJoin(
-                    'userProfiles',
+        const sql = this.buddySystemEventMatch
+            .select([
+                'userProfiles.name',
+                'userProfiles.bio',
+                db.raw('userProfiles.picture1 as picture'),
+                'userProfiles.userId',
+            ])
+            .innerJoin('userProfiles', function () {
+                this.on(
                     'buddySystemEventMatch.userId1',
                     'userProfiles.userId',
-                )
-                .where('buddySystemEventId', buddySystemEventId)
-                .andWhere(function () {
-                    this.where('userId1', db.raw('?', [userId])).orWhere(
-                        'userId2',
-                        db.raw('?', [userId]),
-                    );
-                })
-                .andWhere('userProfiles.userId', '!=', db.raw('?', [userId]));
+                ).orOn('buddySystemEventMatch.userId2', 'userProfiles.userId');
+            })
+            .where('buddySystemEventId', buddySystemEventId)
+            .andWhere(function () {
+                this.where('userId1', db.raw('?', [userId])).orWhere(
+                    'userId2',
+                    db.raw('?', [userId]),
+                );
+            })
+            .andWhere(function () {
+                this.where(
+                    'userId1',
+                    db.raw('`userProfiles`.`userId`'),
+                ).orWhere('userId2', db.raw('`userProfiles`.`userId`'));
+            })
+            .andWhere('userProfiles.userId', '!=', db.raw('?', [userId]));
+
+        const matches: BuddySystemEventMatchUser[] = await sql;
 
         return { ...event, participation, matches };
     }
@@ -272,13 +284,21 @@ export class BuddySystemService {
 
         pairing.pair();
 
-        for (const pair of pairing.pairs) {
-            await this.buddySystemEventMatch.insert({
-                buddySystemEventId,
-                userId1: pair.left.userId,
-                userId2: pair.right.userId,
-            });
-        }
+        await Promise.all(
+            pairing.pairs
+                .map((pair) => [
+                    this.buddySystemEventMatch.insert({
+                        buddySystemEventId,
+                        userId1: pair.left.userId,
+                        userId2: pair.right.userId,
+                    }),
+                    this.matchingService.matchUsers(
+                        pair.left.userId,
+                        pair.right.userId,
+                    ),
+                ])
+                .flat(),
+        );
 
         await this.buddySystemEvent
             .update({ isCompleted: true })
