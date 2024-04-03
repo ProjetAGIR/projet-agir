@@ -9,3 +9,16 @@ export const popRandom = <T>(array: T[], rand?: RandomSeed): T => {
     array.splice(index, 1);
     return element;
 };
+
+export const randomSample = <T>(
+    array: T[],
+    n: number,
+    rand?: RandomSeed,
+): T[] => {
+    const copy = [...array];
+    const sample = [];
+    for (let i = 0; i < n; i++) {
+        sample.push(popRandom(copy, rand));
+    }
+    return sample;
+};

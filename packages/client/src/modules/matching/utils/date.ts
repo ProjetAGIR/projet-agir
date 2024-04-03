@@ -6,6 +6,7 @@ export const MILL_TO_DAY = MILL_TO_HOUR * 24;
 export interface RelativeDateOptions {
     allowPast: boolean;
     allowFuture: boolean;
+    alwaysRelative: boolean;
 }
 
 export interface RelativeDateLocals {
@@ -27,6 +28,7 @@ export interface RelativeDateLocals {
 export const DEFAULT_RELATIVE_DATE_OPTIONS: RelativeDateOptions = {
     allowPast: true,
     allowFuture: true,
+    alwaysRelative: false,
 };
 
 export const RELATIVE_DATE_LOCALS_FR: RelativeDateLocals = {
@@ -48,11 +50,15 @@ export const RELATIVE_DATE_LOCALS_FR: RelativeDateLocals = {
 export const toRelativeDateString = (
     date: Date,
     options: Partial<RelativeDateOptions> = {},
-    locals: RelativeDateLocals = RELATIVE_DATE_LOCALS_FR,
+    locals: Partial<RelativeDateLocals> = {},
 ): string => {
     const { allowPast, allowFuture } = {
         ...DEFAULT_RELATIVE_DATE_OPTIONS,
         ...options,
+    };
+    const fullLocals: RelativeDateLocals = {
+        ...RELATIVE_DATE_LOCALS_FR,
+        ...locals,
     };
 
     let diff = date.getTime() - Date.now();
@@ -62,20 +68,20 @@ export const toRelativeDateString = (
 
     if (diff >= 0) {
         if (allowFuture) {
-            prefix = `${locals.in} `;
+            prefix = `${fullLocals.in} `;
         } else {
-            return locals.future;
+            return fullLocals.future;
         }
     } else {
         diff = -diff;
         if (allowPast) {
-            suffix = ` ${locals.ago}`;
+            suffix = ` ${fullLocals.ago}`;
         } else {
-            return locals.past;
+            return fullLocals.past;
         }
     }
 
-    if (diff > MILL_TO_DAY * 7) {
+    if (diff > MILL_TO_DAY * 7 && !options.alwaysRelative) {
         // More than a week, display the date
         return (
             (date.getFullYear() === new Date().getFullYear()
@@ -88,7 +94,7 @@ export const toRelativeDateString = (
                       month: 'long',
                       year: 'numeric',
                   })) +
-            ` ${locals.at} ${date.toLocaleTimeString('fr', {
+            ` ${fullLocals.at} ${date.toLocaleTimeString('fr', {
                 hour: 'numeric',
                 minute: 'numeric',
             })}`
@@ -96,36 +102,40 @@ export const toRelativeDateString = (
     } else if (diff > MILL_TO_DAY * 2) {
         // More than 2 days, display the number of days
         return `${prefix}${Math.floor(diff / MILL_TO_DAY)} ${
-            locals.days
+            fullLocals.days
         }${suffix}`;
     } else if (diff > MILL_TO_DAY) {
         // More than a day, display the number of days and hours
         const days = Math.floor(diff / MILL_TO_DAY);
         const hours = Math.floor((diff % MILL_TO_DAY) / MILL_TO_HOUR);
 
-        return `${prefix}${days} ${days > 1 ? locals.days : locals.day} ${
-            locals.and
-        } ${hours} ${hours > 1 ? locals.hours : locals.hour}${suffix}`;
+        return `${prefix}${days} ${
+            days > 1 ? fullLocals.days : fullLocals.day
+        } ${fullLocals.and} ${hours} ${
+            hours > 1 ? fullLocals.hours : fullLocals.hour
+        }${suffix}`;
     } else if (diff > MILL_TO_HOUR * 2) {
         // More than 2 hours, display the number of hours
         return `${prefix}${Math.floor(diff / MILL_TO_HOUR)} ${
-            locals.hours
+            fullLocals.hours
         }${suffix}`;
     } else if (diff > MILL_TO_HOUR) {
         // More than an hour, display the number of hours and minutes
         const hours = Math.floor(diff / MILL_TO_HOUR);
         const minutes = Math.floor((diff % MILL_TO_HOUR) / MILL_TO_MIN);
 
-        return `${prefix}${hours} ${hours > 1 ? locals.hours : locals.hour} ${
-            locals.and
-        } ${minutes} ${minutes > 1 ? locals.minutes : locals.minute}${suffix}`;
+        return `${prefix}${hours} ${
+            hours > 1 ? fullLocals.hours : fullLocals.hour
+        } ${fullLocals.and} ${minutes} ${
+            minutes > 1 ? fullLocals.minutes : fullLocals.minute
+        }${suffix}`;
     } else if (diff > MILL_TO_MIN * 2) {
         // More than 2 minutes, display the number of minutes
         return `${prefix}${Math.floor(diff / MILL_TO_MIN)} ${
-            locals.minutes
+            fullLocals.minutes
         }${suffix}`;
     } else {
         // Less than 2 minutes, display "maintenant"
-        return locals.now;
+        return fullLocals.now;
     }
 };

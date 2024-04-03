@@ -67,10 +67,10 @@ export class PublicProfileService {
         userId: TypeOfId<User>,
     ): Promise<NotLoadedPublicUserResult[]> {
         const db = this.databaseService.database;
-    
+
         const date = new Date();
         const seed = `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`;
-    
+
         const availableUsers: (NotLoadedPublicUserResult & {
             order?: number;
         })[] = await db
@@ -166,13 +166,13 @@ export class PublicProfileService {
             .groupBy('targetUser.userId')
             .orderBy('order')
             .limit(1000);
-    
+
         return availableUsers.map((user) => {
             delete user.order;
-    
+
             return user;
         });
-    }    
+    }
 
     /**
      * Get the list of matches for a user

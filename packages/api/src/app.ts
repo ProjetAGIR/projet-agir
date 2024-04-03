@@ -16,6 +16,7 @@ import { logger } from './utils/logger';
 import helmet from 'helmet';
 import { DatabaseService } from './services/database-service/database-service';
 import { WsService } from './services/ws-service/ws-service';
+import { BuddySystemService } from './services/buddy-system-service/buddy-system-service';
 
 @singleton()
 export class Application {
@@ -27,6 +28,7 @@ export class Application {
         private readonly controllers: AbstractController[],
         private readonly databaseService: DatabaseService,
         private readonly wsService: WsService,
+        private readonly buddySystemService: BuddySystemService,
     ) {
         this.app = express();
         this.server = http.createServer(this.app);
@@ -47,6 +49,7 @@ export class Application {
 
     async init() {
         await this.databaseService.instantiate();
+        this.buddySystemService.instantiate();
     }
 
     private configureMiddlewares() {

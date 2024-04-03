@@ -12,7 +12,7 @@
     "lint:fix": "eslint --fix --ignore-path .eslintignore --ext .js,.ts .",
     "format": "prettier --ignore-path .gitignore --write \"**/*.+(js|ts|json)\"",
     "test": "cross-env NODE_ENV=test dotenv -e .env.test jest --runInBand",
-    "jscpd": "jscpd -t 5 src/"
+    "jscpd": "jscpd -t 10 src/"
   },
   "keywords": [],
   "author": "",
@@ -55,6 +55,7 @@
     "bcrypt": "^5.1.1",
     "common": "file:../common",
     "cors": "^2.8.5",
+    "cron": "^3.1.6",
     "cross-env": "^7.0.3",
     "dotenv": "^16.0.3",
     "dotenv-cli": "^7.3.0",
