@@ -62,7 +62,9 @@ export class MatchingService {
         });
 
         // Check if the target user has the "Automatically connect" feature enabled
-        const autoConnectEnabled = (await this.userProfileService.getUserProfile(targetUserId)).automaticallyConnect;
+        const autoConnectEnabled = (
+            await this.userProfileService.getUserProfile(targetUserId)
+        ).automaticallyConnect;
 
         if (liked) {
             const hasMutualLike = await this.swipes
@@ -132,7 +134,7 @@ export class MatchingService {
             .first());
     }
 
-    private async matchUsers(
+    async matchUsers(
         activeUserId: number,
         targetUserId: number,
     ): Promise<void> {
@@ -164,12 +166,12 @@ export class MatchingService {
         this.notificationService.notifyUser(
             activeUserId,
             'matches',
-            `Vous avez matché avec ${targetUser.name} !`,
+            `Nouvelle connexion avec ${targetUser.name} !`,
         );
         this.notificationService.notifyUser(
             targetUserId,
             'matches',
-            `Vous avez matché avec ${activeUser.name} !`,
+            `Nouvelle connexion avec ${activeUser.name} !`,
         );
 
         this.wsService.emitToUserIfConnected(

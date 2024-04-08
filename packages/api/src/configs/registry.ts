@@ -13,6 +13,7 @@ import { AdminUserController } from '../controllers/admin-user-controller/admin-
 import { AdminModerationController } from '../controllers/admin-moderation-controller/admin-moderation-controller';
 import { NotificationController } from '../controllers/notification-controller/notification-controller';
 import { EventsController } from '../controllers/events-controller/events-controller';
+import { BuddySystemController } from '../controllers/buddy-system-controller/buddy-system-controller';
 
 @registry([
     { token: SYMBOLS.controller, useClass: DefaultController },
@@ -26,6 +27,7 @@ import { EventsController } from '../controllers/events-controller/events-contro
     { token: SYMBOLS.controller, useClass: UserController },
     { token: SYMBOLS.controller, useClass: NotificationController },
     { token: SYMBOLS.controller, useClass: EventsController },
+    { token: SYMBOLS.controller, useClass: BuddySystemController },
     { token: SYMBOLS.adminController, useClass: AdminUserController },
     { token: SYMBOLS.adminController, useClass: AdminModerationController },
 ])

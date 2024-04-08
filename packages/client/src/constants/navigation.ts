@@ -1,4 +1,5 @@
 import {
+    BUDDY_SYSTEM_EVENTS_ROUTE,
     EVENTS_ROUTE,
     MATCHES_ROUTE,
     PROFILE_ROUTE,
@@ -10,6 +11,7 @@ export interface NavigationItem {
     shortText: string;
     href: string;
     icon: string;
+    desktopOnly?: boolean;
 }
 
 export const NAVIGATION: NavigationItem[] = [
@@ -24,6 +26,13 @@ export const NAVIGATION: NavigationItem[] = [
         shortText: 'Événements',
         href: EVENTS_ROUTE,
         icon: 'calendar',
+    },
+    {
+        text: 'Parrainage',
+        shortText: 'Parrainage',
+        href: BUDDY_SYSTEM_EVENTS_ROUTE,
+        icon: 'handshake',
+        desktopOnly: true,
     },
     {
         text: 'Mes Connexions',

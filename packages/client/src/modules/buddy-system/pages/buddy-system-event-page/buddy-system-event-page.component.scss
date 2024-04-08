@@ -1,0 +1,87 @@
+@import '../../../../styles/variables';
+@import '../../../../styles/utils';
+
+main {
+    padding: 0 24px 24px 24px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 24px;
+
+    @media screen and (max-width: $mobile-breakpoint) {
+        padding: 0 0 12px 0;
+        gap: 12px;
+    }
+
+    h1 {
+        font-weight: 600;
+        font-size: 1.9em;
+    }
+
+    .date {
+        font-weight: 700;
+        color: var(--theme-main);
+    }
+
+    .toggle-container {
+        display: grid;
+        grid-template-columns: 1fr auto 1fr;
+        justify-content: center;
+        align-items: center;
+        gap: 24px;
+    }
+
+    .toggle-value {
+        @include no-select;
+        font-weight: 600;
+        opacity: 0.55;
+        cursor: pointer;
+        padding: 2px;
+
+        &--false {
+            text-align: right;
+        }
+
+        &--selected {
+            opacity: 1;
+            color: var(--theme-main);
+        }
+    }
+
+    .match {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        align-items: center;
+        gap: 12px;
+        cursor: pointer;
+
+        app-image {
+            border-radius: 6px;
+        }
+
+        &__info {
+            h3,
+            p {
+                margin: 0;
+            }
+
+            h3 {
+                font-weight: 500;
+            }
+
+            p {
+                margin-bottom: 6px;
+                opacity: 0.55;
+            }
+        }
+    }
+
+    p:last-child {
+        margin-bottom: 0;
+    }
+
+    @media screen and (max-width: $mobile-breakpoint) {
+        .match {
+            gap: 12px;
+        }
+    }
+}

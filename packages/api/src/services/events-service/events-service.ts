@@ -90,7 +90,7 @@ export class EventsService {
                     db.raw('?', [userId]),
                 );
             })
-            .where('eventDateStart', '>', new Date())
+            .where('eventDateEnd', '>', new Date())
             .groupBy('events.eventId')
             .limit(completeQuery.limit)
             .offset(completeQuery.offset)
