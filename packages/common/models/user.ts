@@ -23,6 +23,7 @@ export interface UserProfile {
     zodiacSign?: string;
     drinking?: string;
     smoking?: string;
+    usertype?:string;
     drugs?: string;
     workout?: string;
     jobTitle?: string;
@@ -45,6 +46,7 @@ export interface UserProfileDB extends Omit<UserProfile, UnsafeUserProfileAttrib
     interests?: string;
     associations?: string;
     languages?: string;
+    usertype?: string;
 }
 
 export type PublicUser = Pick<User, 'email' | 'userId'>;

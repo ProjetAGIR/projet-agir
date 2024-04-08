@@ -6,10 +6,11 @@ import {
     DRUGS_HABITS,
     SMOKING_HABITS,
     WORKOUT_HABITS,
+    USER_TYPE,
     INTERESTS,
     ASSOCIATIONS,
+    PROGRAMS_ARRAY,
 } from '../../constants';
-import { PROGRAMS_ARRAY } from 'common';
 import { UserProfileService } from '../../services/user-profile-service/user-profile.service';
 import { UserProfile } from 'common/models/user';
 import { BehaviorSubject, catchError, combineLatest, debounceTime } from 'rxjs';
@@ -58,7 +59,7 @@ export class UserProfileFormComponent {
         ),
         associations: new FormControl<string[]>(
             [],
-            // [arrayContainedInValidator(ASSOCIATIONS)],
+            [arrayContainedInValidator(ASSOCIATIONS)],
         ),
         zodiacSign: new FormControl('', [
             containedInValidator(
@@ -71,6 +72,9 @@ export class UserProfileFormComponent {
                 DRINKING_HABITS,
                 (item, value) => item.id === value,
             ),
+        ]),
+        usertype: new FormControl('student', [
+            containedInValidator(USER_TYPE, (item, value) => item.id === value),
         ]),
         smoking: new FormControl('', [
             containedInValidator(
@@ -98,6 +102,7 @@ export class UserProfileFormComponent {
     programs = PROGRAMS_ARRAY;
     zodiacSigns = ZODIAC_SIGNS;
     drinkingHabits = DRINKING_HABITS;
+    usertype = USER_TYPE;
     smokingHabits = SMOKING_HABITS;
     drugHabits = DRUGS_HABITS;
     workoutHabits = WORKOUT_HABITS;
@@ -121,7 +126,10 @@ export class UserProfileFormComponent {
     ) {
         this.userProfileService.getUserProfile().subscribe((userProfile) => {
             if (userProfile) {
-                this.userProfileForm.patchValue(userProfile);
+                this.userProfileForm.patchValue({
+                    ...userProfile,
+                    usertype: userProfile.usertype ?? 'student',
+                });
 
                 if (userProfile.pictures) {
                     for (let i = 0; i < this.pictures.length; i++) {

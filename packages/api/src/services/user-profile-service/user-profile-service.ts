@@ -11,6 +11,7 @@ import {
     DRINKING_HABITS,
     DRUGS_HABITS,
     INTERESTS,
+    USER_TYPE,
     SMOKING_HABITS,
     ZODIAC_SIGNS,
 } from '../../constants/user-profile';
@@ -80,6 +81,7 @@ export class UserProfileService {
             picture5: converted.picture5 ?? null,
             picture6: converted.picture6 ?? null,
             interests: converted.interests ?? null,
+            usertype: converted.usertype ?? null,
             associations: converted.associations ?? null,
             program: converted.program ?? null,
             educationLevel: converted.educationLevel ?? null,
@@ -212,6 +214,16 @@ export class UserProfileService {
         ) {
             throw new HttpException(
                 'Invalid smoking habit',
+                StatusCodes.BAD_REQUEST,
+            );
+        }
+
+        if (
+            userProfile.usertype &&
+            !USER_TYPE.find((s) => s.id === userProfile.usertype)
+        ) {
+            throw new HttpException(
+                'Invalid usertype',
                 StatusCodes.BAD_REQUEST,
             );
         }
