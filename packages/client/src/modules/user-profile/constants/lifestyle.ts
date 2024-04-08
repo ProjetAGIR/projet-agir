@@ -62,11 +62,11 @@ export const DRUGS_HABITS = [
 export const USER_TYPE = [
     {
         id: 'student',
-        name: 'je suis un(e) étudiant(e)',
+        name: 'Étudiant(e)',
     },
     {
         id: 'association',
-        name: 'je suis une association',
+        name: 'Association',
     },
 ];
 

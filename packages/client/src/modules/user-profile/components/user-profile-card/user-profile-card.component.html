@@ -8,12 +8,17 @@
                 [inferSize]="true"
                 class="user-profile__main__picture"
             ></app-image>
+
+            <div class="user-profile__main__tags">
+                <div *ngIf="userProfile.usertype == 'association'" class="user-profile__main__tags__tag"><i class="fas fa-user"></i> Association</div>
+                <div *ngIf="userProfile.automaticallyConnect" class="user-profile__main__tags__tag"><i class="fas fa-chart-network"></i> Auto-connect</div>
+            </div>
     
             <div class="user-profile__main__content" (click)="!infoVisible && showInfo()">
                 <div class="user-profile__main__content__info">
                     <p class="user-profile__main__content__info__name">{{userProfile.name}}</p>
                     <p class="user-profile__main__content__info__subtitle">
-                        <span class="user-profile__main__content__info__subtitle__age">{{userProfile.age}}</span>
+                        <span class="user-profile__main__content__info__subtitle__age" *ngIf="userProfile.usertype != 'association'">{{userProfile.age}}</span>
                         <span class="user-profile__main__content__info__subtitle__program" *ngIf="program">, {{program}}</span>
                     </p>
                 </div>

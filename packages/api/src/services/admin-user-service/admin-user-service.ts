@@ -163,8 +163,8 @@ export class AdminUserService {
         if (sendEmail) {
             await this.emailService.sendEmail(
                 user.email,
-                'Avis de suspension sur PolyTinder',
-                `Votre compte a été suspendu jusqu'au ${until.toLocaleDateString()} sur l'application PolyTinder.<br><br><b>Raison</b>: ${reason}<br><br>Après la période de suspension, vous aurez à nouveau accès à votre compte pour vous permettre de remédier à la situation.<br><br>Pour plus d'information sur les règlements, rendez vous à <a href='https://polytinder.com/about'>https://polytinder.com/about</a>.<br><br><br>Merci de votre compréhension,<br><br>L'équipe PolyTinder`,
+                'Avis de suspension sur INSA Meet',
+                `Votre compte a été suspendu jusqu'au ${until.toLocaleDateString()} sur l'application INSA Meet.<br><br><b>Raison</b>: ${reason}<br><br>Après la période de suspension, vous aurez à nouveau accès à votre compte pour vous permettre de remédier à la situation.<br><br>Pour plus d'information sur les règlements, rendez vous à <a href='https://projet-agir-2024-prod-client-rbzlbnwr7q-ew.a.run.app/about'>https://projet-agir-2024-prod-client-rbzlbnwr7q-ew.a.run.app/about</a>.<br><br><br>Merci de votre compréhension,<br><br>L'équipe INSA Meet`,
             );
         }
     }
@@ -188,8 +188,8 @@ export class AdminUserService {
         if (sendEmail) {
             await this.emailService.sendEmail(
                 user.email,
-                'Avis de bannissement sur PolyTinder',
-                `Votre compte a été banni sur l'application PolyTinder.<br><br><b>Raison</b>: ${reason}<br><br>Pour plus d'information sur les règlements, rendez vous à <a href='https://polytinder.com/about'>https://polytinder.com/about</a>.<br><br><br>Merci de votre compréhension,<br><br>L'équipe PolyTinder`,
+                'Avis de bannissement sur INSA Meet',
+                `Votre compte a été banni sur l'application INSA Meet.<br><br><b>Raison</b>: ${reason}<br><br>Pour plus d'information sur les règlements, rendez vous à <a href='https://projet-agir-2024-prod-client-rbzlbnwr7q-ew.a.run.app/about'>https://projet-agir-2024-prod-client-rbzlbnwr7q-ew.a.run.app/about</a>.<br><br><br>Merci de votre compréhension,<br><br>L'équipe INSA Meet`,
             );
         }
     }

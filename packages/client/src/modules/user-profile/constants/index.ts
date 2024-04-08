@@ -8,3 +8,4 @@ export {
     WORKOUT_HABITS,
 } from './lifestyle';
 export { ZODIAC_SIGNS } from './zodiac';
+export { PROGRAMS, PROGRAMS_ARRAY } from './programs';

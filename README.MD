@@ -20,7 +20,7 @@
 
 <!-- <p style="font-size: 24px;" align="center">Faites des rencontres de génies</p>
 
-<p style="font-size: 18px" align="center">Visit the app now at <a href="https://polytinder.com">polytinder.com</a> !</p> -->
+<p style="font-size: 18px" align="center">Visit the app now at <a href="https://projet-agir-2024-prod-client-rbzlbnwr7q-ew.a.run.app">polytinder.com</a> !</p> -->
 
 <p align="center">
     <a href="#-about">About</a>

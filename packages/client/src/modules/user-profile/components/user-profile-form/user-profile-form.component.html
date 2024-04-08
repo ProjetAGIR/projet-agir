@@ -30,6 +30,7 @@
         <mat-form-field>
             <mat-label><i class="fas fa-calendar"></i> Age</mat-label>
             <input formControlName="age" matInput type="number">
+            <small style="opacity: 0.55;">Ne sera pas affiché pour un compte Association</small>
         </mat-form-field>
 
         <mat-form-field>
@@ -38,17 +39,7 @@
         </mat-form-field>
 
         <mat-form-field>
-            <mat-label><i class="fas fa-ruler"></i> Taille (cm)</mat-label>
-            <input formControlName="height" matInput type="number">
-        </mat-form-field>
-
-        <mat-form-field>
-            <mat-label><i class="fas fa-city"></i> Ville</mat-label>
-            <input formControlName="livingIn" matInput>
-        </mat-form-field>
-
-        <mat-form-field>
-            <mat-label><i class="fas fa-usertype"></i> Type d'utilisateur </mat-label>
+            <mat-label><i class="fas fa-user"></i> Type d'utilisateur </mat-label>
             <mat-select formControlName="usertype">
                 <mat-option *ngFor="let user of usertype" [value]="user.id">{{ user.name }}</mat-option>
             </mat-select>
@@ -62,7 +53,7 @@
         <p class="form--helper">Acceptez automatiquement les connexions lorsqu'un utilisateur souhaite se connecter avec vous sans avoir à demander en retour.</p>
     </app-card>
 
-    <app-card title="Ma vie à Poly" icon="fas fa-school">
+    <app-card title="Ma vie à l'INSA" icon="fas fa-school">
         <mat-form-field>
             <mat-label><i class="fas fa-graduation-cap"></i> Programme d'étude</mat-label>
             <mat-select formControlName="program">
@@ -87,6 +78,16 @@
     </app-card>
 
     <app-card title="Mon mode de vie" icon="fas fa-leaf">
+        <mat-form-field>
+            <mat-label><i class="fas fa-ruler"></i> Taille (cm)</mat-label>
+            <input formControlName="height" matInput type="number">
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label><i class="fas fa-city"></i> Ville</mat-label>
+            <input formControlName="livingIn" matInput>
+        </mat-form-field>
+
         <mat-form-field>
             <mat-label><i class="fas fa-star-shooting"></i> Signe zodiac</mat-label>
             <mat-select formControlName="zodiacSign">

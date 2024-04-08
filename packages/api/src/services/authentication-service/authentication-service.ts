@@ -271,12 +271,12 @@ export class AuthenticationService {
 
         const url = `${
             env.NODE_ENV === 'production'
-                ? 'https://polytinder.com'
+                ? 'https://projet-agir-2024-prod-client-rbzlbnwr7q-ew.a.run.app'
                 : 'http://localhost:4200'
         }/password-reset?token=${encodeURIComponent(token)}`;
 
         const content = `
-            <h1>PolyTinder</h1>
+            <h1>INSA Meet</h1>
             <h2>Réinitialiser votre mot de passe</h2>
             <p>Allez à cet URL <a href="${url}">${url}</a> réinitialiser votre mot de passe.</p>
         `;
